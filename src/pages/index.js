@@ -5,7 +5,7 @@ import InstagramEmbed from "react-instagram-embed";
 
 import Swizec from "../images/swizec.jpg";
 import MortyMindblowers from "../images/mortysmindblowers.mp4";
-import { Video } from "../elements";
+import { Video, Signature } from "../elements";
 
 const MDLink = ({ node }) => (
     <div key={node.id}>
@@ -206,13 +206,18 @@ const IndexPage = ({ data }) => (
         <ListContentPages data={data} />
 
         <h1>Before you leave</h1>
-        <p>Thank you for coming!</p>
+        <p>
+            You have reached a relaxing part of this page. Thank you for coming!
+        </p>
         <p>
             Please fill out <a href="">this feedback form</a>. It helps me
-            calibrate future workshops.
+            calibrate future workshops and optimize what we do tomorrow.
         </p>
-        <p>Enjoy this video of Kiwi</p>
+        <p>Enjoy this relaxing video of Kiwi 🤙</p>
         <InstagramEmbed url="https://www.instagram.com/p/BR9xFYulmiL/" />
+        <p>
+            <Signature />
+        </p>
         <p>
             Cheers,<br />~ Swizec
         </p>

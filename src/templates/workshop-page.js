@@ -12,10 +12,10 @@ export default ({ data }) => {
             <Hero>{page.frontmatter.title}</Hero>
 
             <p>
-                This segment covers👇 You can read the text in {page.timeToRead}{" "}
-                minutes. Solving the exercises might take longer.
+                You can read this segment in in {page.timeToRead} minutes.
+                Solving the exercises might take longer.
             </p>
-
+            <p>This segment covers 👇</p>
             <div dangerouslySetInnerHTML={{ __html: page.tableOfContents }} />
             <div
                 dangerouslySetInnerHTML={{

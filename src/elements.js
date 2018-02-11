@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import signature from "./images/signature.gif";
+import React from "react";
 
 const Iframe = styled.iframe`
     width: 100%;
@@ -18,4 +20,10 @@ const Video = styled.video`
     border: 0;
 `;
 
-export { Iframe, Hero, Video };
+const Sig = styled.img`
+    width: 260px;
+`;
+
+const Signature = () => <Sig src={signature} />;
+
+export { Iframe, Hero, Video, Signature };
