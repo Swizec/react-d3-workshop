@@ -4,6 +4,8 @@ import { sortBy } from "lodash";
 import InstagramEmbed from "react-instagram-embed";
 
 import Swizec from "../images/swizec.jpg";
+import MortyMindblowers from "../images/mortysmindblowers.mp4";
+import { Video } from "../elements";
 
 const MDLink = ({ node }) => (
     <div key={node.id}>
@@ -36,12 +38,22 @@ const ListContentPages = ({ data }) => {
 
 const Welcome = () => (
     <div>
+        <a href="https://swizec.com">
+            <img src={Swizec} title="Swizec at Write the Docs Prague in 2014" />
+        </a>
         <h1>Hello new friend 👋</h1>
 
+        <p>Welcome to Swizec's Data visualization with React & D3v4. </p>
         <p>
-            Welcome to Swizec's Intro to React & Redux Workshop. Today you will
-            build your first webapp with React and Friends. {`<Tomorrow>`} you
-            will build a more complex app that uses Redux for state management.
+            Today we're going to build your first webapp with React and Friends.
+            We're going to use React to build components, React Router for
+            routing, styled components for styling, and Redux for state
+            management.
+        </p>
+        <p>
+            {`<Tomorrow>`} we're going to learn the basics of D3v4, look at
+            several strategies for integration with React, then build a gorgeous
+            visualization or two.
         </p>
         <p>
             Your 1st day starts at the very beginning:{" "}
@@ -49,6 +61,14 @@ const Welcome = () => (
                 Why React? What problem does it solve? What makes it tick?
                 What's the ecosystem like? Why are components the future?
             </em>
+        </p>
+        <p>
+            But fear not, we won't get stuck on the basics. By the end of your
+            first, you'll have built a full webapp and understand how it works.
+        </p>
+        <p>An infinite series of fun gifs like this 👇</p>
+        <p>
+            <Video src={MortyMindblowers} autoPlay loop />
         </p>
         <p>
             Your 2nd day starts with the idea that you magically remember
@@ -60,35 +80,26 @@ const Welcome = () => (
         <p>By the end of the day you'll have built your first React app.</p>
         <p>Something like this 👇</p>
 
-        <p>
-            A static list of tickets pulled from StubHub's API with some
-            controls to change what you can see.
-        </p>
-        <p>
-            By the end of the 2nd day, you'll have built something like this👇
-        </p>
-
-        <p>
-            A small StubHub app that lists event tickets from the StubHub API
-            lets you add them to a shopping cart and "buy" them with a fake API
-            call. It uses Redux to manage state, redux-form to manage forms, and
-            React Router to help you hop around.
-        </p>
+        <p>Dataviz image comes here</p>
     </div>
 );
 
 const WhoSwiz = () => (
     <div>
         <h2>Swizec Teller</h2>
-
-        <a href="https://swizec.com">
-            <img src={Swizec} title="Swizec at Write the Docs Prague in 2014" />
-        </a>
-
-        <p>I'm Swizec, I'll be helping you out today</p>
+        <InstagramEmbed
+            url="https://www.instagram.com/p/Bd_SGSzlBrb/"
+            maxWidth={480}
+            hideCaption
+        />
         <p>
-            You can find out stuff about me if you ask Google. But generally
-            speaking I've:
+            Hi, I’m Swizec Teller, a geek with a hat. I help coders become
+            software engineers. Through this workshop I'm going to teach you all
+            I know about building data visualization with React & D3v4.
+        </p>
+        <p>
+            You can find out stuff about me, if you ask Google. But generally
+            speaking I have:
         </p>
         <ul>
             <li>been coding for over 20 years</li>
@@ -134,7 +145,8 @@ const Start = () => (
         <h2>But first ask yourself this: Why are you here?</h2>
         <p>
             Answering that question will help you get the most out of this
-            workshop.
+            workshop. You can call your answer out to the group, or just think
+            about it.
         </p>
         <p>
             Code you'll write today works with <b>React 16</b> and uses modern{" "}

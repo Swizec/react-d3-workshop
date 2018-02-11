@@ -29,7 +29,7 @@ const Header = () => (
                         textShadow: "none"
                     }}
                 >
-                    Data visualization with React 16 & D3v4 -{" "}
+                    Data visualization with React & D3v4 -{" "}
                     <small>workshop by Swizec</small>
                 </Link>
             </h2>
@@ -40,11 +40,11 @@ const Header = () => (
 const TemplateWrapper = ({ children }) => (
     <div>
         <Helmet
-            title="Data visualization with React 16 & D3v4 - workshop by Swizec"
+            title="Data visualization with React & D3v4 - workshop by Swizec"
             meta={[
                 {
                     name: "description",
-                    content: "Data visualization with React 16 & D3v4"
+                    content: "Data visualization with React & D3v4"
                 },
                 {
                     name: "keywords",
