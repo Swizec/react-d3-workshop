@@ -2,11 +2,11 @@
 title: "Your First App"
 ---
 
-Now we're building an app. A simple app without *proper* state management, but an app non-the-less.
+Now we're building an app. A simple app without *proper* state management at first, but an app non-the-less.
 
-We're going to expand our list of tickets with some more controls. Growing and shortening the visible list, filtering out tickets we don't like, that sort of thing.
+We're going to add gifs from Imgur to go with our Rick quotes. 
 
-![](../images/day-1-example.gif)
+![](../images/mortysmindblowers.gif)
 
 # What goes in which component
 
@@ -20,7 +20,7 @@ Ultimately it boils down to this 👇
 
 ## Practical exercise
 
-Let's add a list component that renders multiple tickets. 
+Let's add a video component that plays a video and calls a function when it reaches the end ( `onEnded` ), and a function when you click on the video.
 
 ## Unidirectional flow – props 👇 events 👆
 
@@ -38,13 +38,27 @@ I like to think of it as a state machine.
 
 ### Practical exercise
 
-Add ability to remove tickets from list.
+When a video ends, play the next one. Add a skip button.
 
 ## Generalized components
 
-HOCs – higher order components – and Render callbacks.
+HOCs – higher order components – and Render callbacks and render props. Which is best? When do you use them?
 
 Here is an example of a HOC
+
+```javascript
+function D3blackbox(D3render) {
+  return class Blackbox extends React.Component {
+    componentDidMount() { D3render.call(this); }
+    componentDidUpdate() { D3render.call(this) }
+  
+    render() {
+      const { x, y } = this.props;
+      return <g transform={`translate(${x}, ${y})`} ref="anchor" />;
+    }
+  }
+}
+```
 
 [CodePen link](https://codepen.io/swizec/pen/woNjVw)
 
@@ -52,7 +66,26 @@ This particular HOC wraps non-React code in a React component. You can use this 
 
 Although I find that plain old `extend` works just as well in many cases. 
 
-Another approach to building generalized components is the render callback pattern. Famously used by Kent C. Dodds' [downshift](https://codepen.io/swizec/pen/woNjVw) library.
+Another approach to building generalized components is the function as children pattern. Famously used by Kent C. Dodds' [downshift](https://codepen.io/swizec/pen/woNjVw) library.
+
+```javascript
+const Fac = ({ children }) => (
+	<div>
+		<h1>One</h1>
+		{children({ number: 1 })}
+	</div>
+);
+
+const PrettyNumber = () => (
+    <Fac>
+        {({ number }) => (
+            <span style={{ color: "amaranth", fontSize: "2em" }}>{number}</span>
+        )}
+    </Fac>
+);
+```
+
+[Try in CodePen](codepen://your-first-app/fac)
 
 The idea there is to have a component that deals with logic and instrumentation, but defers rendering to others. Some prefer explicitly calling functions, others just render the children prop.
 
@@ -81,66 +114,4 @@ And you use `<Link>` to link between pages.
 
 This workshop page is built using [GatsbyJS](https://www.gatsbyjs.org/) and uses ReactRouter behind the scenes.
 
-# Interop with Backbone, jQuery, and Friends
-
-React becomes truly spectacular once you realize that a React component is just a function that returns some HTML. That realization opens you up to fun things.
-
-You can [wrap React components in jQuery plugins](https://swizec.com/blog/using-react-in-the-real-world/swizec/6710). Albeit the example is old and needs updating to modern React, but the gist of it still works.
-
-And you can [interop with Backbone](https://github.com/Swizec/react-backbone-proof-of-concept) really well. At the day job I even built a HOC for it, but I never got around to opensourcing.
-
-Looks like this 👇
-
-```jsx
-export function backbone(BackboneView) {
-    return function(WrappedComponent) {
-        return class Backbone extends WrappedComponent {
-            constructor(props) {
-                super(props);
-
-                this.killAutorun = autorun(this._render.bind(this));
-            }
-
-            componentDidUpdate() { this._render() }
-            componentDidMount() {
-                this._render();
-                if (super.componentDidMount) {
-                    super.componentDidMount();
-                }
-            }
-            componentWillUnmount() {
-                this._cleanup();
-                this.killAutorun();
-            }
-
-            _init() {
-                this.backbone = new BackboneView(Object.assign({},
-                                                               this.props,
-                                                               this.backboneProps));
-            }
-
-            _render() {
-                this._cleanup();
-                if (_.isUndefined(this.renderIf) || this.renderIf) {
-                    this._init();
-                    this.backbone.setElement(this.refs.anchor).render();
-                }
-            }
-
-            _cleanup() {
-                if (this.backbone) {
-                    this.backbone.undelegateEvents();
-                }
-            }
-
-            get anchor() {
-                return (<div ref="anchor" />)
-            }
-        }
-    }
-}
-```
-
-Generally speaking, you can either use React as the renderer and wrap it in other stuff. Or you can use React as the component and wrap it around your other stuff.
-
-Depends on the approach you prefer. Each has different drawbacks.
+ReactRouter is a great example of a popular library that uses render props.
