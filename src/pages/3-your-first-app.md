@@ -100,7 +100,7 @@ React Router is designed to be declarative and follow normal React patterns. You
 ```jsx
 const routes = (
 	<Route path="/" component={App}>
-		<IndexRoute component={Home} />
+		<Route path="/" exact component={Home} />
 		<Route path="/stuff" component={stuff} />
 	</Route>
 );
