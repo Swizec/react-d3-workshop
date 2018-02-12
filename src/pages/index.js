@@ -30,7 +30,7 @@ const ListContentPages = ({ data }) => {
             <h1>Setlist - Day 2</h1>
 
             {_.sortBy(pages, ({ node }) => node.fields.slug)
-                .slice(3)
+                .slice(4, pages.length)
                 .map(MDLink)}
         </div>
     );
@@ -185,6 +185,9 @@ const CoolThings = () => (
             </ProjectLink>
             <ProjectLink url="https://swizec.github.io/h1b-software-salaries/">
                 Tech salary visualization
+            </ProjectLink>
+            <ProjectLink url="https://swizec.github.io/migrations-map/">
+                A zoomable pannable map of global migrations
             </ProjectLink>
             <ProjectLink url="/">This page :)</ProjectLink>
         </ul>
