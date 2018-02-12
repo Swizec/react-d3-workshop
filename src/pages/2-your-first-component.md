@@ -2,9 +2,9 @@
 title: "Your First Component"
 ---
 
-To learn about React components, we're going to build the first part of our static ticket list app – the individual ticket.
+To learn about React components, we're going to build the first part of our gif watching app – a Rick quote generator.
 
-![](../images/day-1-example.gif)
+![](../images/mortysmindblowers.gif)
 
 We're going to do a code-along. 👇
 
@@ -13,14 +13,14 @@ We're going to do a code-along. 👇
 3. You fill in the blanks
 4. Swizec shows you how to fill in the blanks 
 
-You can see the finished app [on Github](https://github.com/Swizec/react-workshop-example-day-1).
+You can see the finished app [on mortysmindblowers.fun](http://mortysmindblowers.fun).
 
 # Two flavors of components
 
 React components come in two flavors:
 
 - class components
-- functional stateless
+- functional stateless components
 
 A title component might look like this 👇
 
@@ -42,7 +42,7 @@ Class components get all of React's features:
 - there's state
 - lifecycle hooks work
 
-But writing all of that gets tedious, if all you want is to render a few elements. So you can use functional stateless components instead 👇
+But writing all of that gets tedious, if all you want is to render a few elements. You can use functional stateless components instead 👇
 
 ```jsx
 const Title = ({ title }) => <h1>{title}</h1>;
@@ -100,11 +100,11 @@ React 16.2 introduced the new `<> ... </>` syntax, which is easier to type. Howe
 
 ## Practical exercise
 
-Build a placeholder `<Ticket />` component.
+Build a placeholder `<RickQuotes />` component.
 
 # State, Props, and Unidirectional data flow
 
-When you're building apps with React, you want to make sure information always flows in one direction. You should always have a single source of truth, which sends information down to components via props, and accepts updates through callbacks or global actions.
+When you're building apps with React, you want to make sure information always flows in one direction. You should have a single source of truth, which sends information down to components via props, and accepts updates through callbacks or global actions.
 
 More on that later.
 
@@ -112,7 +112,7 @@ For now just keep in mind that your component should always be able to render it
 
 ![](../images/unidirectional.png)
 
-When you *do* need state, you should drive it through React's built-in state management (or Redux/MobX, but that's next week).
+When you *do* need state, you should drive it through React's built-in `setState` API, or a state management librarary like Redux or MobX.
 
 > You can think of state as props that change over time. 
 
@@ -142,22 +142,23 @@ class Counter extends React.Component {
 }
 ```
 
-[Try on Codepen](codepen://your-first-component/state.js)
+[Try on Codepen](codepen://your-first-component/state)
 
 Calling `setState` updates the component's `this.state` object and triggers a re-render. Yes, you re-render on every state change. That's the beauty of React.
 
 ## Practical exercise – props
 
-Use real data in your `<Ticket />` component.
+Feed different quotes into your `<RickQuotes />` component.
 
 ## Practical exercise – state
 
-Add a click handler to your `<Ticket />` that increases how many you're trying to get.
+Add a click handler to `<RickQuotes />` that advances to the next quote.
 
 # Lifecycle hooks
 
-One of my favorite features of React's class-based components are their lifecycle hooks. You can think of them as callbacks for key events in a components lifecycle.
+One of my favorite features of React's class-based components are their lifecycle hooks. You can think of them as callbacks for key events in a component's lifecycle.
 
+We will use these a lot in the dataviz section.
 
 ## Creating a component
 
@@ -184,7 +185,7 @@ The best way to explain these is through a diagram and lots of hand waving.
 
 # Component styling
 
-It's time to make our list of tickets. We have a couple of options 👇
+It's time to add some style to our quotes. We have a couple of options 👇
 
 1. **CSS**, React components are just HTML, you can use CSS the same way you always have
 2. **style prop**, great for one-off style definitions
