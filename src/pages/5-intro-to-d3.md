@@ -187,10 +187,36 @@ For a force layout, you have to update the DOM on every tick of the animation. F
 
 It took me a while to get this and once I did, all the fancy looking visualizations started to make sense.
 
-## Takeaway
+# Summary 
 
 You need to grok 3 key insights for D3 to make sense. Once they click, a whole new world opens up.
 
 1. Code is split into data and DOM manipulation
 2. Scales are great and used a lot
 3. You're always in control of rendering
+
+# A few more cool things D3 can do
+
+## Maps
+
+![](../images/choropleth-map.png)
+
+[Choropleth map](https://bl.ocks.org/mbostock/4060606) of US unemployment rate.
+
+## Axes
+
+![](../images/d3-axes.png)
+
+## Shapes
+
+- Build the most common thing you need.
+- Calculate coordinates.
+- You do the rendering.
+
+![](../images/shapes-1.png)
+
+![](../images/shapes-2.png)
+
+## Transitions
+
+![](../images/alphabet.gif)
