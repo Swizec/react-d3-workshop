@@ -12,7 +12,7 @@ jQuery solved that.
 
 Then webapps became bigger and more complex. jQuery code started to look like spaghetti. You couldn't tell the difference between code that's worrying about *how* to render something and code that's deciding *what* to render.
 
-Backbone helped but it was cumbersome and awkward. Been using it professionally since before version 1 ... 0.6, I think. If you're still using Backbone and you're struggling, I share your pain. My day job is 80% Backbone.
+Backbone, remember Backbone? It helped but it was cumbersome and awkward. Been using it professionally since before version 1 ... 0.6, I think. If you're still using Backbone and you're struggling, I share your pain. My day job is 80% Backbone.
 
 Angular wasn't much better. 
 
@@ -52,7 +52,7 @@ You dream of the day when a designer will write your HTML and your CSS so you ca
 
 Yet the day never comes. You keep writing all of it, they keep being tightly coupled, and you're just annoyed that you have to build your stuff in a bazillion different files.
 
-It turns out "separation of concerns" in UI is more about separation of usecase than technology.
+It turns out "separation of concerns" in UI is more about separation of usecase than technology. A semantic difference.
 
 [![](../images/separation-of-concerns.png)](http://www.didoo.net/2017/10/let-there-be-peace-on-css/)
 
@@ -148,13 +148,13 @@ JSX, however, is not a part of JavaScript 👉 we have to use a compiler to make
 
 JavaScript used to be something you write in a simple text editor, open in your browser, and see what happens. Nowadays it's becoming more and more a compiled language.
 
-Your code often runs through multiple compilers before it reaches the user. Everything from transforming ES5 into ES6 and beyond, to minifying your code and splitting it into bundles.
+Your code often runs through multiple compilers before it reaches the user. Everything from transforming ES6+ into ES5, to minifying your code and splitting it into bundles.
 
 Two of the most important build tools are Webpack and Babel. Webpack gives us a rich ecosystem of file loaders. Babel gives us a magnificent compiler for JavaScript.
 
 ## Webpack
 
-![](https://webpack.js.org/bf093af83ee5548ff10fef24927b7cd2.svg)
+![](../images/webpack.svg)
 
 Webpack calls itself a module bundler. Its core task is to give us JavaScript modules.
 
@@ -256,8 +256,8 @@ Workshop code from this point onward assumes you're running inside a `create-rea
 In your terminal, run:
 
 ```
-$ create-react-app intro-to-react-workshop-project
-$ cd intro-to-react-workshop-project
+$ create-react-app reactd3-day-1-project
+$ cd reactd3-day-1-project
 ```
 
 ![](../images/create-react-app.gif)
@@ -274,7 +274,7 @@ $ npm/yarn start
 
 ![](../images/welcome-to-react.gif)
 
-The two most important tools `create-react-app` set up for us are [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/). Webpack is our bundler and Babel is our JavaScript transpiler. Let me explain.
+The two most important tools `create-react-app` set up for us are [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/). Webpack is our bundler and Babel is our JavaScript transpiler.
 
 # React ecosystem
 
@@ -284,7 +284,7 @@ You know, like we used to have with jQuery, but better.
 
 Right now you can already find a lot of pre-configured, pre-styled, widget components for almost anything you can think of. 
 
-NPM currently lists 38,692 packages containing the word `react`.
+When I wrote this paragraph in December, NPM had 38,692 packages containing the word `react`. In February, it was over 47,000.
 
 ![](../images/react-npm.png )
 
@@ -303,15 +303,15 @@ Some common pieces that people use are 👇
 
 Those 4 choices in some ways dictate the rest of the libraries you're going to use. Redux likes one way of handling forms, MobX another. The styling library you choose, defines which helper libraries you can use, different data layers have different tooling etc.
 
-We'll talk more about styling when we build our first component,  routing and state management come tomorrow. We're going to use `fetch()` calls to talk to APIs.
+We'll talk more about styling when we build our first component,  routing and state management come with an app. We're going to use `fetch()` calls to talk to APIs.
 
 ## Debugging/Testing
 
-One of the benefits of building webapps the React way is that they are easier to work with. That means testing and debugging.
+One of the benefits of building webapps the React way, is that they are easier to work with. That means testing and debugging.
 
 You should install the [React DevTools Chrome extension](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en). It allows you to inspect React components on the page, see their current state and props, observe redraws etc.
 
-Because React components rely only on their props and render in a virtual DOM, it's easy to write good test. Facebook has created a test runner called Jest designed specifically for testing React components.
+Because React components rely only on their props and render in a virtual DOM, it's easy to write good test. Facebook has created a test runner called Jest designed specifically for testing React components. AirBnB's Enzyme also comes highly recommended.
 
 Here's an example test that `create-react-app` creates for us
 

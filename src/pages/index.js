@@ -213,7 +213,7 @@ const IndexPage = ({ data }) => (
             Please fill out <a href="">this feedback form</a>. It helps me
             calibrate future workshops and optimize what we do tomorrow.
         </p>
-        <p>Enjoy this relaxing video of Kiwi 🤙</p>
+        <p>Enjoy this relaxing video of Kiwi</p>
         <InstagramEmbed url="https://www.instagram.com/p/BR9xFYulmiL/" />
         <p>
             <Signature />
