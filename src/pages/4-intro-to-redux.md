@@ -2,22 +2,15 @@
 title: "Intro to Redux"
 ---
 
-Welcome to the Redux part of this workshop. Today we're going to build a small StubHub app that:
+Welcome to the Redux part of this workshop. We're going to talk some theory, draw a couple state machines, and refactor our gif watching app to use Redux.
 
-1. loads events in San Francisco from StubHub's API
-2. lets you find what you want
-3. add it to a shopping car
-4. fake buy it
+![](../images/mortysmindblowers.gif)
 
-<video src="https://github.com/Swizec/intro-to-react-workshop/raw/master/src/images/stubhub-app.mp4" autoplay mute controls style="width: 100%"></video>
-
-To build it we're going use a few different opensource packages. [Redux](http://redux.js.org/) will help us manage state, [Downshift](https://github.com/paypal/downshift) will help us build filtering, [redux-form](https://redux-form.com/7.1.1/) will help us manage the checkout form, and we'll use [styled components](https://github.com/styled-components/styled-components) for styling.
-
-But let's start at the beginning. *What is Redux? What's the point?*
+Let's start at the beginning. *What is Redux? What's the point?*
 
 # Why Redux
 
-Redux is a state management system built on the unidirectional dataflow principle. Data lives in a central repository of truth and flows down into your components via props. Those components issue actions to change state.
+Redux is a state management system built on the unidirectional data flow principle. Data lives in a central repository of truth and flows down into your components via props. Those components issue actions to change state.
 
 ![](https://images.contentful.com/s72atsk5w5jo/3gM6ZNauDKG22CeIkYQwY8/1591f4fb993a474dcc744486254e4914/swift-unidirectional-diagram.png)
 
@@ -74,11 +67,9 @@ Let's draw a simple state machine for a toggle. Just to get our feet wet.
 
 ## Practical exercise – state machine for our app
 
-Something more complex. Let's draw a state machine for our StubHub app together.
+Something more complex. Let's draw the state machine for our gif watching app together.
 
-![](../images/app_state_machine.jpg)
-
-Keep this in mind as we build our app in the next section. It will help you decide what code to write.
+[take whiteboard pic, insert here]
 
 ## Smart and Dumb components
 
@@ -86,7 +77,7 @@ A common pattern when separating your business and view logic is to have smart a
 
 Smart components are those that are aware of your data store. They read values from Redux, issue actions, and are generally aware that Redux exists.
 
-Dumb components are those that render purely from props and issue callbacks, which they get from props, to make changes. These have no idea that Redux exists.
+Dumb components are those that render purely from props and issue callbacks, which they get from props. These have no idea that Redux exists. You can think of them as templates.
 
 # Redux vs MobX
 
@@ -99,8 +90,6 @@ MobX follows a reactive programming approach. Changes mutate your state, but a b
 Redux is backed by Facebook and used by many industry giants. The community is huge and the mindshare immense.
 
 MobX is backed by a consulting shop from Europe and used by some industry giants. The community is passionate and amazing, but smaller than Redux.
-
-If you're used to Backbone and you've been using it in an idiomatic way, then MobX is going to feel more natural. It follows the same principle of subscribing to data changes as Backbone Models/Views do, but makes it feasible with a smarter engine.
 
 Fundamentally both Redux and MobX give you the same end result: Understandable app architecture with explicit state transitions. A state machine.
 
@@ -118,7 +107,7 @@ In theory it has amazing performance but at the end of the day, until immutabili
 
 Let's look at our state machine again. 
 
-![](../images/reducers_actions_selectors.jpg)
+[take whiteboard pic, insert]
 
 See the circles? Those represent our state as a result of different actions. We calculate those using reducers.
 
@@ -161,7 +150,7 @@ In practice, actions are functions that return those objects. Action generators 
 
 ## Selectors
 
-Selectors are functions that help us get data out of our store. Basic selectors don't much more than access values and return them.
+Selectors are functions that help us get data out of our store. Basic selectors don't do much more than access values and return them.
   
 More advanced selectors can derive computed values, combine multiple selectors, memoize their results and so on. Using the [reselect](https://github.com/reactjs/reselect) library for your more complex selectors is a good idea.
 
@@ -252,6 +241,7 @@ const mapDispatchToProps = () => ({
 
 const CounterContainer = connect(mapStateToProps, mapDispatchToProps)(Counter);
 ```
+
 ## Performance
 
 So how slow is it to throw away and rebuild your whole state tree on every change?
@@ -343,4 +333,11 @@ export default mySaga;
 
 The first saga calls a User API and yields a result action when the fetch is done. The other two are different versions of subscribing to the `USER_FETCH_REQUESTED` action.
 
-We're relying on thunks in our example project. I couldn't find a good excuse to use sagas.
+I still haven't found a good excuse to use sagas :)
+
+# Let's refactor morty's mindblowers to use Redux together
+
+1. Swizec explains what we're going to do
+2. Swizec codes a part of it and makes a commit
+3. You fill in the blanks
+4. Swizec shows you how to fill in the blanks 
