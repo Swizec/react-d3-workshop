@@ -15,6 +15,8 @@ We're going to do a code-along. 👇
 
 You can see the finished app [on mortysmindblowers.fun](http://mortysmindblowers.fun).
 
+I have prepared [a starter repo](https://github.com/Swizec/mortys-mindblowers-feb-2018-workshop) to get us going faster.
+
 # Two flavors of components
 
 React components come in two flavors:

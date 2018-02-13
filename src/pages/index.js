@@ -5,6 +5,7 @@ import InstagramEmbed from "react-instagram-embed";
 
 import Swizec from "../images/swizec.jpg";
 import MortyMindblowers from "../images/mortysmindblowers.mp4";
+import Olympics from "../images/olympics.gif";
 import { Video, Signature } from "../elements";
 
 const MDLink = ({ node }) => (
@@ -80,7 +81,14 @@ const Welcome = () => (
         <p>By the end of the day you'll have built your first React app.</p>
         <p>Something like this 👇</p>
 
-        <p>Dataviz image comes here</p>
+        <p>
+            <img src={Olympics} />
+        </p>
+        <p>
+            It's not fancy or super colorful, but it's a good way to learn about
+            building reusable dataviz components, making them play together, and
+            adding some interactivity. We can always add more together :)
+        </p>
     </div>
 );
 
