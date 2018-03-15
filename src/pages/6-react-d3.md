@@ -186,8 +186,7 @@ They don't look difficult, but there are many tiny details you have to get just 
 
 D3's axis generator takes a scale and some configuration to render an axis for us. The code looks like this:
 
-<iframe height='265' scrolling='no' title='pure-d3-axis' src='//codepen.io/swizec/embed/YGoYBM/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/swizec/pen/YGoYBM/'>pure-d3-axis</a> by Swizec Teller (<a href='https://codepen.io/swizec'>@swizec</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<iframe src="https://codesandbox.io/embed/v6ovkow8q3" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 If this code doesn't make any sense, don't worry. There's a bunch of D3 to learn, and I'll help you out. If it's obvious, you're a pro! This book will be much quicker to read.
 
@@ -203,8 +202,7 @@ Now let's say we want to use that same axis code but as a React component. The s
 
 #### Blackbox version
 
-<iframe height='265' scrolling='no' title='react-d3-axis' src='//codepen.io/swizec/embed/qazxPz/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/swizec/pen/qazxPz/'>react-d3-axis</a> by Swizec Teller (<a href='https://codepen.io/swizec'>@swizec</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<iframe src="https://codesandbox.io/embed/3xy2jr1y5m" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 Oh man! So much code! Is this really worth it? Yes, for the other benefits of using React in your dataviz. You'll see :)
 
@@ -241,12 +239,11 @@ Let's build a HOC for D3 blackbox integration. We'll use it in the main example 
 
 A D3blackbox HOC looks like this:
 
-<iframe height='265' scrolling='no' title='react-d3-axis' src='//codepen.io/swizec/embed/qazxPz/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/swizec/pen/qazxPz/'>react-d3-axis</a> by Swizec Teller (<a href='https://codepen.io/swizec'>@swizec</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<iframe src="https://codesandbox.io/embed/5v21r0wo4x" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-You'll recognize most of that code from earlier. We have a componentDidMount andcomponentDidUpdate lifecycle hooks that call D3render on component updates. This used to be called renderAxis. render renders a grouping element as an anchor into which D3 can put its stuff.
+You'll recognize most of that code from earlier. We have a componentDidMount and componentDidUpdate lifecycle hooks that call D3render on component updates. This used to be called renderAxis. render renders a grouping element as an anchor into which D3 can put its stuff.
 
-Because D3render is no longer a part of the component, we have to use .call to give it the scope we want: this class, or rather this instance of the Backbone class.
+Because D3render is no longer a part of the component, we have to use `.call` to give it the scope we want: this class, or rather this instance of the React component.
 
 We've also made some changes to make render more flexible. Instead of hardcoding the `translate()` transformation, we take x and y props. `{ x, y } = this.props` takes x and y out of this.props using object decomposition, and we used ES6 string templates for the transform attribute.
 
@@ -289,10 +286,9 @@ Let's build a rectangle that changes color based on prop values. We'll render a 
 
 Yes, it looks like a trivial example, but color-as-information is an important concept in data visualization.
 
-I suggest following along in Codepen for now. 
+I suggest following along in CodeSandbox for now. 
 
-<iframe height='265' scrolling='no' title='d3 color scale' src='//codepen.io/swizec/embed/oYNvpQ/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/swizec/pen/oYNvpQ/'>d3 color scale</a> by Swizec Teller (<a href='https://codepen.io/swizec'>@swizec</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<iframe src="https://codesandbox.io/embed/985xmjrvx4" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 We start with a Swatch component that draws a rectangle and fills it with a color.
 
@@ -378,3 +374,9 @@ We create a grouping element to fulfill React's one child per component requirem
 After inserting into the DOM with ReactDOM, we get a series of 20 colorful rectangles.
 
 Try changing the `width="400"` property of `<Colors />`. You'll see D3's scaleBand and our update wiring ensure the color strip renders correctly. For more fun, try changing the Colors component so it takes the color scale as a prop, then rendering multiple instances of `<Colors />` side-by-side.
+
+# Practical exercise
+
+Can you turn the color scale into a simple bar chart with random data? What about a checkerboard?
+
+[Checkerboard solution](https://codesandbox.io/s/036y4jj30w)

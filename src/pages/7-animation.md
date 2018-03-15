@@ -30,10 +30,9 @@ Let's get our feet wet with my favorite childhood example: a bouncing ball.
 
 I must have built dozens of them back in my Turbo Pascal days using BGI. Yes, those Turbo Pascal and BGI are from the 80's. No, I'm not that old, I just started young and with old equipment. Coding for DOS is easier when you're a kid than coding for Windows 95.
 
-I suggest you follow along on CodePen. Here's one I prepared for you earlier:
+I suggest you follow along on CodeSandbox. Here's one I prepared for you earlier:
 
-<iframe height='665' scrolling='no' title='React D3 manual animation - bouncing ball, unsolved' src='//codepen.io/swizec/embed/WRzqvK/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/swizec/pen/WRzqvK/'>React D3 manual animation - bouncing ball, unsolved</a> by Swizec Teller (<a href='https://codepen.io/swizec'>@swizec</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<iframe src="https://codesandbox.io/embed/rrwz67jl04" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 ### Stub it out ☝️
 
@@ -57,15 +56,14 @@ The two we can achieve with easing functions are:
 
 - Squash and Stretch
 - Slow In Slow Out
-- 
+
 Let me show you how it works on a small example. We're drawing a field of 50 by 50 circles that "flash" when touched. The end result looks like there's a snake following your cursor.
 
 ## Rainbow snake
 
 You can play with the code on CodePen, here. Follow along as I explain how it works. Tweak parameters and see what happens :)
 
-<iframe height='665' scrolling='no' title='React D3 transition animation - rainbow field' src='//codepen.io/swizec/embed/QdVoOg/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/swizec/pen/QdVoOg/'>React D3 transition animation - rainbow field</a> by Swizec Teller (<a href='https://codepen.io/swizec'>@swizec</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<iframe src="https://codesandbox.io/embed/vmjxjl7y73" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 ### App
 
@@ -149,19 +147,26 @@ When you mouse over one of the dots, its flash() method gets called as an event 
 
 ```javascript
   flash() {
-    let node = d3.select(this.refs.circle);
+    let node = d3.select(this.refs.circle),
+      R = this.state.r * 4;
 
-    this.setState({colorize: true});
+    this.setState({ colorize: true });
 
-    node.transition()
-        .attr('r', 20)
-        .duration(250)
-        .ease(d3.easeCubicOut)
-        .transition()
-        .attr('r', 5)
-        .duration(250)
-        .ease(d3.easeCubicOut)
-        .on('end', () => this.setState({colorize: false}));
+    node
+      .transition()
+      .attr("r", R)
+      .duration(250)
+      .ease(d3.easeCubicOut)
+      .transition()
+      .attr("r", R / 3.5)
+      .duration(250)
+      .ease(d3.easeCubicOut)
+      .on("end", () =>
+        this.setState({
+          colorize: false,
+          r: R / 3.5
+        })
+      );
   }
 ```
 

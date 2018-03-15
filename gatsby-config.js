@@ -38,7 +38,8 @@ module.exports = {
                                 "https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js",
                                 "https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"
                             ],
-                            codesandbox: ["react", "react-dom"],
+                            dependencies: ["d3"],
+                            codesandbox: ["react", "react-dom", "d3"],
                             html: '<div id="root"></div>',
                             directory: `${__dirname}/examples/`,
                             target: "_blank"

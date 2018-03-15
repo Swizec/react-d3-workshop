@@ -142,11 +142,11 @@ Colored shapes in the domain map to colors in the range. No formula for this one
 
 ```javascript
 let shapes = d3.scaleOrdinal()
-	.domain(['red triangle', 'orange rectangle', ...)
+	.domain(['red', 'orange', ...)
 	.range(['red', 'orange', ...)
 ```
 
-[Play with scales on CodePen](https://codepen.io/swizec/pen/qxmMda)
+[Play with scales on CodeSandbox](codesandbox://intro-to-d3/scales)
 
 Once you have this scale, you can use it to translate from shapes to colors. `shapes('red triangle')` returns `'red'` for example.
 
@@ -213,10 +213,16 @@ You need to grok 3 key insights for D3 to make sense. Once they click, a whole n
 - Calculate coordinates.
 - You do the rendering.
 
-![](../images/shapes-1.png)
+![Some common basic shapes D3 can generate](../images/shapes-1.png)
 
-![](../images/shapes-2.png)
+![D3 can build complex curves too](../images/shapes-2.png)
 
 ## Transitions
 
-![](../images/alphabet.gif)
+![An animated alphabet shows off transitions](../images/alphabet.gif)
+
+An animated alphabet shows off transitions
+
+![A piechart gets data streamed in every 120ms](../images/transition-pie.gif)
+
+A piechart gets data streamed in every 120ms

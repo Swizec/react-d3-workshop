@@ -173,7 +173,7 @@ const ProjectLink = ({ url, children }) => (
 
 const CoolThings = () => (
     <div>
-        <h1>Here are some cool things I've built with React</h1>
+        <h1>Here are some cool things I've built with React & D3</h1>
 
         <ul>
             <ProjectLink url="http://swizec.github.io/react-d3-enter-exit-transitions/">
