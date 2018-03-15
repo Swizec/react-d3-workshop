@@ -24,6 +24,13 @@ const Sig = styled.img`
     width: 260px;
 `;
 
+const Navigation = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 85px 0px 165px 0px;
+    width: ;
+`;
+
 const Signature = () => <Sig src={signature} />;
 
-export { Iframe, Hero, Video, Signature };
+export { Iframe, Hero, Video, Signature, Navigation };

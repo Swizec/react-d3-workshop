@@ -1,9 +1,7 @@
 import React from "react";
-import Link from "gatsby-link";
 
 import { Hero } from "../elements";
-
-const chunk = <h1>hai</h1>;
+import PageNavigation from "../components/PageNavigation";
 
 export default ({ data }) => {
     const page = data.markdownRemark,
@@ -17,9 +15,6 @@ export default ({ data }) => {
         ),
         nextPage = allPages[currentIndex + 1],
         prevPage = allPages[currentIndex - 1];
-
-    console.log(currentIndex);
-    console.log(allPages.map(e => e.node.fields.slug));
 
     return (
         <div>
@@ -36,22 +31,7 @@ export default ({ data }) => {
                     __html: page.html
                 }}
             />
-            <p style={{ display: "flex", justifyContent: "space-between" }}>
-                {prevPage ? (
-                    <Link to={prevPage.node.fields.slug}>
-                        👈 {prevPage.node.frontmatter.title}
-                    </Link>
-                ) : (
-                    <Link to="/">👈 Home</Link>
-                )}
-                {nextPage ? (
-                    <Link to={nextPage.node.fields.slug}>
-                        {nextPage.node.frontmatter.title} 👉
-                    </Link>
-                ) : (
-                    <Link to="/fin">🎊 Fin 👉</Link>
-                )}
-            </p>
+            <PageNavigation prevPage={prevPage} nextPage={nextPage} />
         </div>
     );
 };
