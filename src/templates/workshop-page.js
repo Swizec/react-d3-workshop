@@ -31,7 +31,7 @@ export default ({ data }) => {
                     __html: page.html
                 }}
             />
-            <PageNavigation prevPage={prevPage} nextPage={nextPage} />
+            <PageNavigation prevPage={prevPage} nextPage={nextPage || null} />
         </div>
     );
 };

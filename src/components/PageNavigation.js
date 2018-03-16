@@ -15,7 +15,7 @@ const PageNavigation = ({ prevPage, nextPage }) => (
             )}
         </h2>
         <h2>
-            {nextPage ? (
+            {typeof nextPage === "undefined" ? null : nextPage ? (
                 <Link to={nextPage.node.fields.slug}>
                     {nextPage.node.frontmatter.title} 👉
                 </Link>

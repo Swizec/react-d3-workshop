@@ -21,7 +21,8 @@ const Video = styled.video`
 `;
 
 const Sig = styled.img`
-    width: 260px;
+    height: 50px;
+    margin: 10px 0 -20px 0;
 `;
 
 const Navigation = styled.div`
@@ -31,6 +32,17 @@ const Navigation = styled.div`
     width: ;
 `;
 
-const Signature = () => <Sig src={signature} />;
+const SignoffImg = styled.img`
+    padding: 45px 0px;
+`;
 
-export { Iframe, Hero, Video, Signature, Navigation };
+const Signature = () => (
+    <p>
+        Cheers,
+        <br />
+        <Sig src={signature} />
+        <br />~ Swizec
+    </p>
+);
+
+export { Iframe, Hero, Video, Signature, Navigation, SignoffImg };

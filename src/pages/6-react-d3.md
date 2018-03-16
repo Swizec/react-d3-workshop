@@ -100,6 +100,8 @@ class Dataviz extends Component {
 
 ![](../images/spaghetti.jpg)
 
+# Using a library (and when not to)
+
 # How
 
 Our visualizations are going to use SVG - an XML-based image format that lets us describe images in terms of mathematical shapes. For example, the source code of an 800x600 SVG image with a rectangle looks like this:
@@ -380,3 +382,5 @@ Try changing the `width="400"` property of `<Colors />`. You'll see D3's scaleBa
 Can you turn the color scale into a simple bar chart with random data? What about a checkerboard?
 
 [Checkerboard solution](https://codesandbox.io/s/036y4jj30w)
+
+# About server-side-rendering SSR

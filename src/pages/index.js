@@ -5,8 +5,9 @@ import InstagramEmbed from "react-instagram-embed";
 
 import Swizec from "../images/swizec.jpg";
 import MortyMindblowers from "../images/mortysmindblowers.mp4";
-import Olympics from "../images/olympics.gif";
-import { Video, Signature } from "../elements";
+import PiechartGif from "../images/transition-pie.gif";
+import RockOn from "../images/rock-on.gif";
+import { Video, SignoffImg, Signature } from "../elements";
 
 const MDLink = ({ node }) => (
     <div key={node.id}>
@@ -33,6 +34,10 @@ const ListContentPages = ({ data }) => {
             {_.sortBy(pages, ({ node }) => node.fields.slug)
                 .slice(4, pages.length)
                 .map(MDLink)}
+
+            <h2>
+                <Link to="/fin">🎊 Fin</Link>
+            </h2>
         </div>
     );
 };
@@ -44,8 +49,34 @@ const Welcome = () => (
         </a>
         <h1>Hello new friend 👋</h1>
 
-        <p>Welcome to Swizec's Data visualization with React & D3v4. </p>
         <p>
+            Welcome to Swizec's Data visualization with React & D3v4 workshop.
+        </p>
+
+        <p>
+            This is usually a 2 day workshop that starts with the basics of
+            React and ends with beautiful visualizations. At Reactathon we're
+            just doing day 2.
+        </p>
+        <p>
+            To get the most out of this workshop, you should be familiar with 👇
+        </p>
+        <ul>
+            <li>React</li>
+            <li>ideas behind componentization</li>
+            <li>stateful rendering</li>
+            <li>JSX</li>
+            <li>modern ES6+ syntax</li>
+            <li>component lifecycles</li>
+        </ul>
+        <p>
+            <strong>But fear not!</strong>{" "}
+        </p>
+        <p>
+            I am here to guide you, if you need any help. We'll go through
+            everything together.
+        </p>
+        {/* <p>
             Today we're going to build your first webapp with React and Friends.
             We're going to use React to build components, React Router for
             routing, styled components for styling, and Redux for state
@@ -77,17 +108,21 @@ const Welcome = () => (
             here to help and he's going to code everything with you. If you get
             lost, sit back and observe. Checkout the example repo at key points
             so you can catch up.
-        </p>
-        <p>By the end of the day you'll have built your first React app.</p>
-        <p>Something like this 👇</p>
+        </p> */}
 
         <p>
-            <img src={Olympics} />
+            By the end of the day you'll have built your first React & D3 data
+            visualization. An animated piechart that shows the breakdown of my
+            spending on transport.
+        </p>
+
+        <p>
+            <img src={PiechartGif} style={{ height: "480px" }} />
         </p>
         <p>
-            It's not fancy or super colorful, but it's a good way to learn about
-            building reusable dataviz components, making them play together, and
-            adding some interactivity. We can always add more together :)
+            Nothing crazy fancy, but it's a good way to learn how to dynamically
+            load data and render it. We can take this humble piechart in many
+            directions, if there's time. Interactivity, reusability, things.
         </p>
     </div>
 );
@@ -111,6 +146,10 @@ const WhoSwiz = () => (
         </p>
         <ul>
             <li>been coding for over 20 years</li>
+            <li>
+                <a href="https://swizec.com">writing a blog</a> for 12 years<br />
+                (please don't read early entries, I was in high school lol)
+            </li>
             <li>
                 published{" "}
                 <a href="http://nightowlsbook.com/">
@@ -148,7 +187,10 @@ const Start = () => (
             confusing, <b>ask</b>. If I'm not making sense, <b>ask</b>. If your
             code doesn't work, <b>ask</b>.
         </p>
-        <p>You will write code today. The code will live on your computer.</p>
+        <p>
+            You will write code today. Some code will live on your computer,
+            some in the browser.
+        </p>
         <p>We will take breaks.</p>
         <h2>But first ask yourself this: Why are you here?</h2>
         <p>
@@ -207,8 +249,8 @@ const CoolThings = () => (
 const IndexPage = ({ data }) => (
     <div>
         <Welcome />
-        <WhoSwiz />
         <CoolThings />
+        <WhoSwiz />
 
         <Start />
 
@@ -216,22 +258,10 @@ const IndexPage = ({ data }) => (
 
         <ListContentPages data={data} />
 
-        <h1>Before you leave</h1>
-        <p>
-            You have reached a relaxing part of this page. Thank you for coming!
-        </p>
-        <p>
-            Please fill out <a href="">this feedback form</a>. It helps me
-            calibrate future workshops and optimize what we do tomorrow.
-        </p>
-        <p>Enjoy this relaxing video of Kiwi</p>
-        <InstagramEmbed url="https://www.instagram.com/p/BR9xFYulmiL/" />
-        <p>
-            <Signature />
-        </p>
-        <p>
-            Cheers,<br />~ Swizec
-        </p>
+        <a href="https://www.youtube.com/watch?v=QxIWDmmqZzY">
+            <SignoffImg src={RockOn} title="Rock On 🤘" />
+        </a>
+        <Signature />
     </div>
 );
 
