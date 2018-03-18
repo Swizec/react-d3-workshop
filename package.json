@@ -26,16 +26,16 @@
         "styled-components": "^3.1.6",
         "typography-theme-doelger": "^0.15.11"
     },
-    "keywords": [
-        "gatsby"
-    ],
+    "keywords": ["gatsby"],
     "license": "MIT",
     "main": "n/a",
     "scripts": {
         "build": "gatsby build",
         "develop": "gatsby develop",
-        "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "format":
+            "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "gatsby develop"
     },
     "devDependencies": {
         "prettier": "^1.10.2"

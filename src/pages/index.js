@@ -5,7 +5,7 @@ import InstagramEmbed from "react-instagram-embed";
 
 import Swizec from "../images/swizec.jpg";
 import MortyMindblowers from "../images/mortysmindblowers.mp4";
-import PiechartGif from "../images/transition-pie.gif";
+import ConnectedDataviz from "../images/connected-dataviz.mp4";
 import RockOn from "../images/rock-on.gif";
 import { Video, SignoffImg, Signature } from "../elements";
 
@@ -54,9 +54,9 @@ const Welcome = () => (
         </p>
 
         <p>
-            This is usually a 2 day workshop that starts with the basics of
+            Usually this is a 2 day workshop that starts with the basics of
             React and ends with beautiful visualizations. At Reactathon we're
-            just doing day 2.
+            focusing on the visualization part.
         </p>
         <p>
             To get the most out of this workshop, you should be familiar with 👇
@@ -70,12 +70,9 @@ const Welcome = () => (
             <li>component lifecycles</li>
         </ul>
         <p>
-            <strong>But fear not!</strong>{" "}
+            <strong>But fear not!</strong>
         </p>
-        <p>
-            I am here to guide you, if you need any help. We'll go through
-            everything together.
-        </p>
+        <p>I am here to guide you. We'll go through everything together.</p>
         {/* <p>
             Today we're going to build your first webapp with React and Friends.
             We're going to use React to build components, React Router for
@@ -112,17 +109,18 @@ const Welcome = () => (
 
         <p>
             By the end of the day you'll have built your first React & D3 data
-            visualization. An animated piechart that shows the breakdown of my
-            spending on transport.
+            visualization. A pair of connected charts that load a static
+            datafile and render it as a piechart and a barchart.
         </p>
 
         <p>
-            <img src={PiechartGif} style={{ height: "480px" }} />
+            <Video src={ConnectedDataviz} autoPlay loop />
         </p>
         <p>
-            Nothing crazy fancy, but it's a good way to learn how to dynamically
-            load data and render it. We can take this humble piechart in many
-            directions, if there's time. Interactivity, reusability, things.
+            We're gonna keep it simple. React, D3, and Chroma. No Redux or 3rd
+            party visualization libraries. Our goal is to really understand how
+            things work, not to talk about a thousand libraries you'll forget by
+            tomorrow.
         </p>
     </div>
 );

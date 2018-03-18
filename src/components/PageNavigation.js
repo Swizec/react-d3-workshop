@@ -8,7 +8,9 @@ const PageNavigation = ({ prevPage, nextPage }) => (
         <h2>
             {prevPage ? (
                 <Link to={prevPage.node.fields.slug}>
-                    👈 {prevPage.node.frontmatter.title}
+                    👈{" "}
+                    {prevPage.node.frontmatter &&
+                        prevPage.node.frontmatter.title}
                 </Link>
             ) : (
                 <Link to="/">👈 Home</Link>

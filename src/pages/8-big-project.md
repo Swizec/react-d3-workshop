@@ -1,58 +1,75 @@
 ---
-title: Winter Olympics Medals visualization
+title: Swizec's transport expenses dataviz
 ---
 
-It's time to build something cool. We're going to build a data visualization of the Winter Olympics Medals. Because the olympics are happening just now.
+It's time to build something cool. 
 
-![](../images/olympics.gif)
+We're going to build a 2-chart dashboard. A piechart and a barchart showing the same data. Hovering one of the charts, reflects on the other. Both change the title to show you what you're hovering over.
 
-I know it doesn't look too shiny, but it's the only good dataset I could find. FIS, the skiing organization, publishes all results onine ... in a PDF.
+As our dataset we're going to borrow a CSV file I got from my expense tracking app. Specifically the `transport` category because I got curious one evening. Ubers really add up.
 
-Parsing PDFs is hard so we're doing medals :)
+![](../images/connected-dataviz.gif)
 
-We're using our usual approach 👇
+We're using the code-along approach 👇
 
 1. Swizec explains what we're going to do
 2. Swizec codes a part of it and makes a commit
 3. You fill in the blanks
 4. Swizec shows you how to fill in the blanks 
 
-The following is an outline of what we're doing to help us focus.
+The following is an outline of what we're doing to help us keep on track.
 
 We're going to copypasta a lot of data manipulation code from my original repo. Writing allt that isn't fun and is often the most time consuming part of building a dataviz project.
 
 ## Clone starter repo
 
-[winter olympics starter repo](https://github.com/Swizec/winter-olympics-feb-2018-workshop)
+I've prepared a starter repo that comes with
+
+- dataset
+- data helper functions
+- stubbed out components and files
+- all necessary dependencies
+
+[expenses dashboard starter repo](https://github.com/Swizec/react-d3-workshop-mar-2018)
 
 ```
-$ cd
+$ cd 
 $ yarn/npm install
 ```
 
-It has all the dependencies we need and some basic code to get us going.
-
-## Basic Redux boilerplate
+You now have everything you need to get started.
 
 ## Load and parse data
 
-## Render a scatterplot
+## Render a barchart
 
-### Create axes
-#### Build a general axis component
-#### Use it for bottom axis
-#### Use it for left axis
+### Set up scales
+### Render Bars in a loop
+### Make Bar component
 
-### Add datapoints
-#### Read data from redux store
-#### Render in a loop
+## Render a piechart
 
-## Add a 2nd scatterplot
-### Maybe build a line graph instead 
+### Set up pie generator
+### Render arcs in a loop
+### Set up arc generator
+### Render arc
 
-## Animate history of olympics
-### Tweak medalsSelector to get per year data
-### Add button to start animation
-### Call action in interval to walk through years
-#### Make sure you don't skip years or get out of sync with reality
+## Connect hover effects
 
+### Add hover callbacks to bars and arcs
+### Track selected tag in main component
+### Pass selected tag down to arcs and bars
+### Change color of selected element
+### Render name of current tag
+
+## Add data streaming animation
+
+### Add 1 datapoint per N milliseconds
+### Add transitions to arcs
+### Render a count of datapoints
+
+## Bonus
+
+### Add axes to barchart
+### Add transitions to barchart
+### Render more charts for different subsets of data
