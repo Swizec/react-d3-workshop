@@ -1,4 +1,5 @@
 import React from "react";
+import pagecss from "./workshop-page.css";
 
 import { Hero } from "../elements";
 import PageNavigation from "../components/PageNavigation";
@@ -30,6 +31,7 @@ export default ({ data }) => {
                 dangerouslySetInnerHTML={{
                     __html: page.html
                 }}
+                className="workshop-page"
             />
             <PageNavigation prevPage={prevPage} nextPage={nextPage || null} />
         </div>

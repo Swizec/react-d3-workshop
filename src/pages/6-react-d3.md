@@ -102,6 +102,77 @@ class Dataviz extends Component {
 
 # Using a library (and when not to)
 
+The easiest way to achieve all these benefits is to use a library. Something that comes with pre-built visualization components you can plug into your app and move on with life.
+
+Most data visualization libraries are built on top of D3. They often give you basic charts and graphs, some customizability, and a world of pain when you stray from the beaten path.
+
+That's why I rarely use them myself.
+
+But if all you need is a simple chart, a library is your friend. Here are some of the most popular 👇
+
+List borrowed from [a wonderful Smashing Magazine article](https://www.smashingmagazine.com/2018/02/react-d3-ecosystem/), because I like doing it myself from scratch 🤙
+
+## Victory
+
+> React.js components for modular charting and data visualization
+
+[![Image source: Victory](../images/victoryjs.gif)](http://formidable.com/open-source/victory/)
+
+Victory offers low level components for basic charting and reimplements a lot of D3's API. Great when you need to create basic charts without a lot of customization. Supports React Native.
+
+<iframe src="https://codesandbox.io/embed/3v3q013x36" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+## Recharts
+> A composable charting library built on React components
+
+[![Recharts homepage](recharts.gif)](http://recharts.org/)
+
+Recharts looks similar to Victory. It comes with a pile of charting components, offers some customization, and seems to love animating everything by default.
+
+<iframe src="https://codesandbox.io/embed/mmkrjl7qxp" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+## Nivo
+
+> nivo provides a rich set of dataviz components, built on top of the awesome d3 and Reactjs libraries.
+
+[![Nivo homepage](nivo.gif)](http://nivo.rocks)
+
+Nivo is another attempt to bring you a set of basic charting components. Comes with great interactive documentation, support for Canvas and API rendering. Allows a lot of basic customization.
+
+<iframe src="https://codesandbox.io/embed/n1wwkvq24" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+## VX
+
+> vx is collection of reusable low-level visualization components. vx combines the power of d3 to generate your visualization with the benefits of react for updating the DOM.
+
+[![VX homepage](vx.png)](https://vx-demo.now.sh/)
+
+VX is the closest to the integration approaches we're going to discuss today. React for rendering, D3 for calculations. When you build a set of custom components for your organization, a flavor of VX is essentially what you come up with.
+
+That's why it's often what I recommend teams use when they need to get started quickly.
+
+<iframe src="https://codesandbox.io/embed/k5853pryrv" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+## When not to use a library
+
+Now, if you want to build something custom, something that delights and astounds, something that makes your users love you, then you will have to understand how combining React and D3 works under the hood. That's what we're here for today.
+
+To quote [Marcos Iglesias](https://www.smashingmagazine.com/2018/02/react-d3-ecosystem/) because I agree with everything he said.
+
+### Quality
+> Let’s say we fix quality. We could aim to have a code base that is well tested, up to date with D3.js version 4 (soon to be v5) and with comprehensive documentation.
+
+### Time 
+> If we think about **time**, a useful question to ask ourselves is, “Is this a long-term investment?” If the response is “yes,” then I would advise you to create a library based on D3.js and wrap it with React using the lifecycle methods approach. This approach separates our code by technologies and is more time-resistant.
+
+### Scope
+> When we deal with **scope**, we should think of whether what we need is a small number of basic charts, a one-off complex visualization or several highly customized graphics. In the first case, I would again choose the closest library to the specifications and fork it. For bespoke data visualizations that contain a lot of animations or interactions, building with regular D3.js is the best option. 
+
+### Cost
+> Finally, the **cost** side of the decision is related to the budget and training of the team. What kinds of skills does your team have? If you have D3.js developers, they would prefer a clear separation between D3.js and React, so probably an approach using the lifecycle method wrapping would work great. However, if your team is mostly React developers, they would enjoy extending any of the current React-D3.js libraries.
+
+Fundamentally, the more custom your visualization needs, the more necessary it becomes to roll your own code.
+
 # How
 
 Our visualizations are going to use SVG - an XML-based image format that lets us describe images in terms of mathematical shapes. For example, the source code of an 800x600 SVG image with a rectangle looks like this:
