@@ -261,13 +261,13 @@ D3's axis generator takes a scale and some configuration to render an axis for u
 
 <iframe src="https://codesandbox.io/embed/v6ovkow8q3" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-If this code doesn't make any sense, don't worry. There's a bunch of D3 to learn, and I'll help you out. If it's obvious, you're a pro! This book will be much quicker to read.
+If this code doesn't make any sense, don't worry. There's a bunch of D3 to learn, and I'll help you out. If it's obvious, you're a pro! This workshop will be much easier to follow.
 
 We start with a linear scale that has a domain `[0, 10]` and a range `[0, 200]`. You can think of scales as mathematical functions that map a domain to a range. In this case, calling `scale(0)` returns `0`, `scale(5)` returns `100`, `scale(10)` returns `200`. Just like middle school mathematics.
 
 We create an axis generator with `axisBottom`, which takes a scale and is going to generate a bottom oriented axis – numbers below the line. You can also tweak settings for the number of ticks, their sizing, and their spacing.
 
-Equipped with an axis generator, we select the svg element, append a grouping element, use a transform attribute to move it `10px` to the right and 30px down, and invoke the generator with `.call()`.
+Equipped with an axis generator, we select the svg element, append a grouping element, use a transform attribute to move it `10px` to the right and `30px` down, and invoke the generator with `.call()`.
 
 ### A quick blackbox example - a React+D3 axis
 
@@ -279,19 +279,19 @@ Now let's say we want to use that same axis code but as a React component. The s
 
 Oh man! So much code! Is this really worth it? Yes, for the other benefits of using React in your dataviz. You'll see :)
 
-We created an Axis component that extends React base Component class. We can't use functional stateless components for this because we need lifecycle hooks. More on those later.
+We created an `Axis` component that extends React base `Component` class. We can't use functional stateless components for this because we need lifecycle hooks. More on those later.
 
-Our component has a render method, which returns a grouping element (g) moved 10px to the right and 30px down using the transform attribute. Same as before.
+Our component has a render method, which returns a grouping element (`g`) moved `10px` to the right and `30px` down using the transform attribute. Same as before.
 
-We added a ref attribute, which lets us reference elements in our component via this.refs. This makes D3 integration cleaner, and it probably works with React-native. I haven't tried yet.
+We added a `ref` attribute, which lets us reference elements in our component via `this.refs`. This makes D3 integration cleaner.
 
-The body of renderAxis should look familiar. It's where we put code from the pure D3 example. Scale, axis, select, call. There's no need to append a grouping element; we're already there with `this.refs.g`.
+The body of `renderAxis` should look familiar. It's where we put code from the pure D3 example. Scale, axis, select, call. There's no need to append a grouping element; we're already there with `this.refs.g`.
 
-For the manual re-rendering part, we call renderAxis in componentDidUpdate and componentDidMount. This ensures that our axis re-renders every time React's engine decides to render our component. On state and prop changes usually.
+For the manual re-rendering part, we call `renderAxis` in `componentDidUpdate` and `componentDidMount`. This ensures that our axis re-renders every time React's engine decides to render our component. On `state` and `prop` changes usually.
 
 That wasn't so bad, was it?
 
-To make our axis more useful, we could get the scale and axis orientation from props. We'll do that for scales in our bigger project.
+To make our axis more useful, we could get the scale and axis orientation from props.
 
 #### HOC version
 
@@ -308,21 +308,21 @@ With a HOC, we can abstract that away into something called a class factory. It'
 
 You can think of it as a function that takes some params and creates a class – a React component. Another way to think about HOCs is that they're React components wrapping other React components and a function that makes it easy.
 
-Let's build a HOC for D3 blackbox integration. We'll use it in the main example project.
+Let's build a HOC for D3 blackbox integration. You can use it in the main example project.
 
 A D3blackbox HOC looks like this:
 
 <iframe src="https://codesandbox.io/embed/5v21r0wo4x" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-You'll recognize most of that code from earlier. We have a componentDidMount and componentDidUpdate lifecycle hooks that call D3render on component updates. This used to be called renderAxis. render renders a grouping element as an anchor into which D3 can put its stuff.
+You'll recognize most of that code from earlier. We have `componentDidMount` and `componentDidUpdate` lifecycle hooks that call `D3render` on component updates. This used to be called `renderAxis`. Render renders a grouping element as an anchor into which D3 can put its stuff.
 
 Because D3render is no longer a part of the component, we have to use `.call` to give it the scope we want: this class, or rather this instance of the React component.
 
-We've also made some changes to make render more flexible. Instead of hardcoding the `translate()` transformation, we take x and y props. `{ x, y } = this.props` takes x and y out of this.props using object decomposition, and we used ES6 string templates for the transform attribute.
+We've also made some changes to make render more flexible. Instead of hardcoding the `translate()` transformation, we take x and y props. `{ x, y } = this.props` takes x and y out of `this.props` using object decomposition, and we used ES6 string templates for the transform attribute.
 
 Consult my [ES6 cheatsheet](https://es2017.io) for details on that.
 
-Using our new D3blackbox HOC to make an axis looks like this:
+Using our new `D3blackbox` HOC to make an axis looks like this:
 
 ```javascript
 const Axis = D3blackbox(function () {
@@ -341,7 +341,13 @@ It’s the same code as we had in `renderAxis` before. The only difference is th
 
 I'm not 100% whether wrapping a function in a React component counts as a real HOC, but let's roll with it. More proper HOCs are React components wrapped in components.
 
-You can play with this example on Codepen here.
+You can play with this example on CodeSandbox, [here](https://codesandbox.io/s/5v21r0wo4x?from-embed).
+
+### Practical exercise
+
+Use the D3blackbox approach to take a random D3 example and render it as a React component.
+
+Let's say [the barchart example for earlier](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/index.html). You can use [this link](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/data.tsv) for the data file.
 
 ## Full-feature integration
 
@@ -396,9 +402,9 @@ We start by inheriting from Component and defining defaults for D3 objects. this
 
 this.width is a D3 scale designed for producing bands, d3.scaleBand. As mentioned earlier, scales map domains to ranges. We know our domain is 20 colors, so we can statically set the domain as `[1, 2, 3, ..., 20]` with `d3.range(20)`.
 
-d3.range generates a counting array, by the way. We'll use that a lot.
+`d3.range` generates a counting array, by the way. We'll use that a lot.
 
-We'll use this.width to calculate widths and positions of our color swatches. Here's a picture from D3 docs to help you visualize what `scaleBand` does:
+We'll use `this.width` to calculate widths and positions of our color swatches. Here's a picture from D3 docs to help you visualize what `scaleBand` does:
 
 ![](../images/band.png)
 
@@ -418,11 +424,11 @@ updateD3(props) {
 }
 ```
 
-componentWillMount and componentWillUpdate are component lifecycle hooks. Can you guess when they run?
+`componentWillMount` and `componentWillUpdate` are component lifecycle hooks. Can you guess when they run?
 
-componentWillMount runs just before React's engine inserts our component into the DOM, and componentWillUpdate runs just before React updates it. That happens on any prop change or setState call.
+`componentWillMount` runs just before React's engine inserts our component into the DOM, and `componentWillUpdate` runs just before React updates it. That happens on any prop change or setState call.
 
-Both of them call our updateD3 method with the new value of props. We use it to update this.width scale's range. Doing so keeps the internal state of D3 objects in sync with React's reality. Without it, our component might render stale data.
+Both of them call our `updateD3` method with the new value of props. We use it to update `this.width` scale's range. Doing so keeps the internal state of D3 objects in sync with React's reality. Without it, our component might render stale data.
 
 Finally, we render a bunch of color swatches.
 
@@ -442,7 +448,7 @@ render() {
 }
 ```
 
-We create a grouping element to fulfill React's one child per component requirement, then render 20 swatches in a loop. Each gets a color from this.colors and a width and x from this.width.
+We create a grouping element to fulfill React's one child per component requirement, then render 20 swatches in a loop. Each gets a color from this.colors and a `width` and `x` from `this.width`.
 
 After inserting into the DOM with ReactDOM, we get a series of 20 colorful rectangles.
 
@@ -488,7 +494,7 @@ We're also rendering `<App />` and running all of our React code twice. But this
 
 ## Adapting your React D3 app to server-side
 
-Adjusting to server-side rendering required a small mind shift in the way I built my chart. Usually I like to use `componentWillMount` in the `<App />` component to load data. Until data loads the app renders a `null`, after that it returns a chart component.
+Adjusting to server-side rendering requires a small mind shift in the way you build your chart. Usually I like to use `componentWillMount` in the `<App />` component to load data. Until data loads the app renders a `null`, after that it returns a chart component.
 
 This makes apps easy to build and avoids issues with undefined data when rendering.
 

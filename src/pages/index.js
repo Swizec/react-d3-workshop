@@ -190,6 +190,9 @@ const Start = () => (
             some in the browser.
         </p>
         <p>We will take breaks.</p>
+        <p>
+            <img src="http://i.imgur.com/04VI9lT.gif" />
+        </p>
         <h2>But first ask yourself this: Why are you here?</h2>
         <p>
             Answering that question will help you get the most out of this

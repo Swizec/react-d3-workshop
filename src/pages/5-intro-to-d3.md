@@ -219,7 +219,7 @@ You need to grok 3 key insights for D3 to make sense. Once they click, a whole n
 
 ## Transitions
 
-![An animated alphabet shows off transitions](../images/alphabet.gif)
+[![An animated alphabet shows off transitions](../images/alphabet.gif)](https://github.com/Swizec/react-d3-enter-exit-transitions)
 
 An animated alphabet shows off transitions
 

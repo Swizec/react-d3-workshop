@@ -14,7 +14,7 @@ Our general approach to animation goes like this: Render from state. Change stat
 
 We're going to use two different ways of changing state so often. The first follows a game loop principle, which gives you more control, but is more tedious. The second is using D3 transitions, which is quicker to build, but gives you less control.
 
-We're going to start with an example or two in CodePen, then build something more involved. 
+We're going to start with an example or two in CodeSandbox, then build something more involved. 
 
 # Using a game loop for rich animation
 
@@ -57,11 +57,15 @@ The two we can achieve with easing functions are:
 - Squash and Stretch
 - Slow In Slow Out
 
+<iframe src="http://easings.net/" width="110%" height="400" style="border: 0px"></iframe>
+
+[From easings.net](http://easings.net)
+
 Let me show you how it works on a small example. We're drawing a field of 50 by 50 circles that "flash" when touched. The end result looks like there's a snake following your cursor.
 
 ## Rainbow snake
 
-You can play with the code on CodePen, here. Follow along as I explain how it works. Tweak parameters and see what happens :)
+You can play with the code on CodeSandbox. Follow along as I explain how it works. Tweak parameters and see what happens :)
 
 <iframe src="https://codesandbox.io/embed/vmjxjl7y73" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
