@@ -210,3 +210,109 @@ Calibrate a linear scale to translate between `[0, maxR^2]` and `[0, 1]`, then f
 We calibrate the t scale to 1.2*maxPos**2 for two reasons. First, you want to avoid square roots because they're slow. Second, adding the 1.2 factor changes how the color scale behaves and makes it look better.
 
 At least I think so. Experiment ;)
+
+# Custom transitions with tweens
+
+![A smoothly transitioning piechart](../images/transition-pie.gif)
+
+Transitions like we used above work using interpolators. For numbers, an interpolator is simple: A function that parametrizes changes to a single argument.
+
+```javascript
+let i = d3.interpolateNumber(10, 20);
+i(0.0); // 10
+i(0.2); // 12
+i(0.5); // 15
+i(1.0); // 20
+```
+
+
+D3 can interpolate everything from numbers, to colors, and even objects or strings. It does so by finding interpolatable parts of your argument and manipulating them linearly depending on the `t` parameter.
+
+But sometimes you need custom interpolators – tweens.
+
+Say you want to animate an arc shape. The path definition argument is a complex string 👇
+
+```
+M100.6434055594246,-99.8203632756589A8,8,0,0,1,112.2823856114007,-99.46188154973098A150,150,0,0,1,-104.56274177607584,107.54828233063364A8,8,0,0,1,-104.38099615277264,95.90520136696549L-64.39381262786019,59.38549403963366A8,8,0,0,1,-53.635344263429694,59.35696964757701A80,80,0,0,0,61.78081312913049,-50.82451307295977A8,8,0,0,1,62.30830828934212,-61.57007978883599Z
+```
+
+If that doesn't make sense, don't worry. I can't read it either. Maybe [Sarah Drasner](https://twitter.com/sarah_edo) can, she's an SVG goddess 🤔
+
+[PS: she can](https://twitter.com/sarah_edo/status/971840965488119809)
+
+When you try to transition a shape like that, funny things can happen. Sometimes arcs fly around the screen, sometimes you get an error.
+
+![Naively implemented transition. Notice the arcs change shape sometimes](../images/naive-transition-d3-pie.gif)
+
+Notice the arc wobble.
+
+
+## Tweens to the rescue
+
+Luckily, D3 lets us define custom transitions called tweens. To smoothly animate a piechart we're going to build an `arcTween`. Because piecharts are made of arcs.
+
+The idea is to move from blindly transitioning path definitions, to transitioning angles on a pie slice. We're building a tween generator that takes some params and returns a tweening function.
+
+Tweening functions are what makes transitions work, by the way. They take an argument, `t`, and return the value of your prop at that specific "time" of your transition.
+
+![](../images/transition-sketch.png)
+
+Our tween generator is going to need:
+
+1. `oldData`, the definition of our pie slice at the start of our transition
+2. `newData`, the definition of our pie slice that we want to tween towards
+3. `arc`, a [D3 arc generator](https://github.com/d3/d3-shape/blob/master/README.md#arcs)
+
+Both `oldData` and `newData` come from a [D3 pie generator](https://github.com/d3/d3-shape/blob/master/README.md#pies). Their `startAngle` and `endAngle` is what we're interested in.
+
+Our `arcTween` function uses these to build a tween method that we then feed into `attrTween`.
+
+```javascript
+// inspired from http://bl.ocks.org/mbostock/5100636
+function arcTween(oldData, newData, arc) {
+    const copy = { ...oldData };
+    return function() {
+        const interpolateStartAngle = d3.interpolate(
+                oldData.startAngle,
+                newData.startAngle
+            ),
+            interpolateEndAngle = d3.interpolate(
+                oldData.endAngle,
+                newData.endAngle
+            );
+
+        return function(t) {
+            copy.startAngle = interpolateStartAngle(t);
+            copy.endAngle = interpolateEndAngle(t);
+            return arc(copy);
+        };
+    };
+}
+```
+
+We make a `copy` of `oldData` so we don't change input data by accident, then we return a function. This function creates two interpolators with `d3.interpolate`.
+
+Each interpolator starts from an `oldData` angle and moves towards a `newData` angle. One for start, one for end.
+
+This function then returns our actual interpolation function. It takes the argument `t`, feeds it into our two interpolators, adjusts values on the `copy` object, feeds that into the `arc` generator, and returns a new path definition.
+
+You use it like this 👇
+
+```javascript
+// Arc.js
+d3
+	.select(this.refs.elem)
+	.transition()
+	.duration(80)
+	.attrTween("d", arcTween(this.state.d, newProps.d, this.arc))
+	.on("end", () =>
+	    this.setState({
+	        d: newProps.d,
+	        pathD: this.arc(newProps.d)
+	    })
+	);
+```
+
+Select an element, a `<path>`, start a transition, make it last `80` milliseconds, `attrTween` the path definition, `d`, attribute using the tween returned from `arcTween`.
+
+We're going to use this `arcTween` in our example project later.

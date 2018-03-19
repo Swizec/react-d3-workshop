@@ -125,7 +125,7 @@ Victory offers low level components for basic charting and reimplements a lot of
 ## Recharts
 > A composable charting library built on React components
 
-[![Recharts homepage](recharts.gif)](http://recharts.org/)
+[![Recharts homepage](../images/recharts.gif)](http://recharts.org/)
 
 Recharts looks similar to Victory. It comes with a pile of charting components, offers some customization, and seems to love animating everything by default.
 
@@ -135,7 +135,7 @@ Recharts looks similar to Victory. It comes with a pile of charting components, 
 
 > nivo provides a rich set of dataviz components, built on top of the awesome d3 and Reactjs libraries.
 
-[![Nivo homepage](nivo.gif)](http://nivo.rocks)
+[![Nivo homepage](../images/nivo.gif)](http://nivo.rocks)
 
 Nivo is another attempt to bring you a set of basic charting components. Comes with great interactive documentation, support for Canvas and API rendering. Allows a lot of basic customization.
 
@@ -145,7 +145,7 @@ Nivo is another attempt to bring you a set of basic charting components. Comes w
 
 > vx is collection of reusable low-level visualization components. vx combines the power of d3 to generate your visualization with the benefits of react for updating the DOM.
 
-[![VX homepage](vx.png)](https://vx-demo.now.sh/)
+[![VX homepage](../images/vx.png)](https://vx-demo.now.sh/)
 
 VX is the closest to the integration approaches we're going to discuss today. React for rendering, D3 for calculations. When you build a set of custom components for your organization, a flavor of VX is essentially what you come up with.
 
@@ -173,7 +173,7 @@ To quote [Marcos Iglesias](https://www.smashingmagazine.com/2018/02/react-d3-eco
 
 Fundamentally, the more custom your visualization needs, the more necessary it becomes to roll your own code.
 
-# How
+# How to build your own
 
 Our visualizations are going to use SVG - an XML-based image format that lets us describe images in terms of mathematical shapes. For example, the source code of an 800x600 SVG image with a rectangle looks like this:
 
