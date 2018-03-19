@@ -20,31 +20,32 @@ Take this animated alphabet for example. New letters animate in, old letters shu
 
 ```jsx
 class Alphabet extends Component {
+    static letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
-  static letters = "abcdefghijklmnopqrstuvwxyz".split('');
+    state = { alphabet: [] };
 
-  state = {alphabet: []}
+    componentDidMount() {
+        d3.interval(() => {
+            const shuffledLetters = d3
+                .shuffle(Alphabet.letters)
+                .slice(0, Math.floor(Math.random() * 18))
+                .sort();
+            this.setState({ alphabet: shuffledLetters });
+        }, 1500);
+    }
 
-  componentDidMount() {
-    d3.interval(() => {
-      const shuffledLetters = d3.shuffle(Alphabet.letters)
-        .slice(0, Math.floor(Math.random() * 18))
-        .sort();
-      this.setState({alphabet: shuffledLetters});
-    }, 1500);
+    render() {
+        const { alphabet } = this.state;
+        const letters = alphabet.map((d, i) => <Letter d={d} i={i} key={i} />);
 
-  }
-
-  render() {
-    const { alphabet } = this.state;
-    const letters = alphabet.map((d, i) => <Letter d={d} i={i} key={i} />)
-
-    return <g transform="translate(0, 200)">
-      <ReactTransitionGroup component="g">
-        {letters}
-      </ReactTransitionGroup>
-    </g>
-  }
+        return (
+            <g transform="translate(0, 200)">
+                <ReactTransitionGroup component="g">
+                    {letters}
+                </ReactTransitionGroup>
+            </g>
+        );
+    }
 }
 ```
 
@@ -56,44 +57,52 @@ Now imagine you've built a `<Histogram />` component. You can move it around jus
 
 ```jsx
 class Dataviz extends Component {
-  render() {
-      return (
-         <g transform={translate}>
-        
-           <Histogram data={this.props.data}
-            value={(d) => d.base_salary}
-            x={0}
-            y={0}
-            width={400}
-            height={200}
-            title="All" />
-              
-           <Histogram data={engineerData}
-             value={(d) => d.base_salary}
-             x={450}
-             y={0}
-             width={400}
-             height={200}
-             title="Engineer" />
-               
-           <Histogram data={programmerData}
-             value={(d) => d.base_salary}
-             x={0}
-             y={220}
-             width={400}
-             height={200}
-             title="Programmer"/>
-               
-           <Histogram data={developerData}
-             value={(d) => d.base_salary}
-             x={450}
-             y={220}
-             width={400}
-             height={200}
-             title="Developer" />
-         </g>)
+    render() {
+        return (
+            <g transform={translate}>
+                <Histogram
+                    data={this.props.data}
+                    value={d => d.base_salary}
+                    x={0}
+                    y={0}
+                    width={400}
+                    height={200}
+                    title="All"
+                />
+
+                <Histogram
+                    data={engineerData}
+                    value={d => d.base_salary}
+                    x={450}
+                    y={0}
+                    width={400}
+                    height={200}
+                    title="Engineer"
+                />
+
+                <Histogram
+                    data={programmerData}
+                    value={d => d.base_salary}
+                    x={0}
+                    y={220}
+                    width={400}
+                    height={200}
+                    title="Programmer"
+                />
+
+                <Histogram
+                    data={developerData}
+                    value={d => d.base_salary}
+                    x={450}
+                    y={220}
+                    width={400}
+                    height={200}
+                    title="Developer"
+                />
+            </g>
+        );
     }
-};
+}
 ```
 
 ## No more spaghetti
@@ -123,6 +132,7 @@ Victory offers low level components for basic charting and reimplements a lot of
 <iframe src="https://codesandbox.io/embed/3v3q013x36" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 ## Recharts
+
 > A composable charting library built on React components
 
 [![Recharts homepage](../images/recharts.gif)](http://recharts.org/)
@@ -160,15 +170,19 @@ Now, if you want to build something custom, something that delights and astounds
 To quote [Marcos Iglesias](https://www.smashingmagazine.com/2018/02/react-d3-ecosystem/) because I agree with everything he said.
 
 ### Quality
+
 > Let’s say we fix quality. We could aim to have a code base that is well tested, up to date with D3.js version 4 (soon to be v5) and with comprehensive documentation.
 
-### Time 
+### Time
+
 > If we think about **time**, a useful question to ask ourselves is, “Is this a long-term investment?” If the response is “yes,” then I would advise you to create a library based on D3.js and wrap it with React using the lifecycle methods approach. This approach separates our code by technologies and is more time-resistant.
 
 ### Scope
-> When we deal with **scope**, we should think of whether what we need is a small number of basic charts, a one-off complex visualization or several highly customized graphics. In the first case, I would again choose the closest library to the specifications and fork it. For bespoke data visualizations that contain a lot of animations or interactions, building with regular D3.js is the best option. 
+
+> When we deal with **scope**, we should think of whether what we need is a small number of basic charts, a one-off complex visualization or several highly customized graphics. In the first case, I would again choose the closest library to the specifications and fork it. For bespoke data visualizations that contain a lot of animations or interactions, building with regular D3.js is the best option.
 
 ### Cost
+
 > Finally, the **cost** side of the decision is related to the budget and training of the team. What kinds of skills does your team have? If you have D3.js developers, they would prefer a clear separation between D3.js and React, so probably an approach using the lifecycle method wrapping would work great. However, if your team is mostly React developers, they would enjoy extending any of the current React-D3.js libraries.
 
 Fundamentally, the more custom your visualization needs, the more necessary it becomes to roll your own code.
@@ -196,11 +210,9 @@ Another nice feature of SVG is that it's just a dialect of XML - nested elements
 That makes React's rendering engine particularly suited for SVG. Our 100x200 rectangle from before looks like this as a React component.
 
 ```jsx
-const Rectangle = () => (
-    <rect width="100" height="200" x="50" y="20" />
-);
+const Rectangle = () => <rect width="100" height="200" x="50" y="20" />;
 
-ReactDOM.render(<Rectangle />, document.getElementById('svg'))
+ReactDOM.render(<Rectangle />, document.getElementById("svg"));
 ```
 
 You're right. This looks like tons of work for a static rectangle. But look closely. Even if you know nothing about React and JSX, you can look at that code and see that it's a Picture of a Rectangle.
@@ -208,14 +220,15 @@ You're right. This looks like tons of work for a static rectangle. But look clos
 Compare that to a pure D3 approach:
 
 ```javascript
-d3.select("svg")
-  .attr("width", 800)
-  .attr("height", 600)
-  .append("rect")
-  .attr("width", 100)
-  .attr("height", 200)
-  .attr("x", 50)
-  .attr("y", 20);
+d3
+    .select("svg")
+    .attr("width", 800)
+    .attr("height", 600)
+    .append("rect")
+    .attr("width", 100)
+    .attr("height", 200)
+    .attr("x", 50)
+    .attr("y", 20);
 ```
 
 It's elegant, it's declarative, it looks like function call soup. It doesn't scream "Rectangle in an SVG" to me as much as the React example does.
@@ -242,8 +255,8 @@ D3's strong suit is its ability to do everything other than the DOM. There are m
 
 Which is why we're going to follow this approach:
 
-- React owns the DOM
-- D3 calculates properties
+*   React owns the DOM
+*   D3 calculates properties
 
 This way, we can leverage React for SVG structure and rendering optimizations and D3 for all its mathematical and visualization functions.
 
@@ -295,14 +308,14 @@ To make our axis more useful, we could get the scale and axis orientation from p
 
 #### HOC version
 
-After the blackbox axis example above, you'd be right to think something like *"Dude, that looks like it's gonna get hella repetitive. Do I really have to do all that every time?"*
+After the blackbox axis example above, you'd be right to think something like _"Dude, that looks like it's gonna get hella repetitive. Do I really have to do all that every time?"_
 
 Yes, you do. But! We can make it easier with a higher order component - a HOC.
 
 Higher order components are one of the best ways to improve your React code. When you see more than a few components sharing similar code, it's time for a HOC. In our case, that shared code would be:
 
-- rendering an anchor element
-- calling D3's render on updates
+*   rendering an anchor element
+*   calling D3's render on updates
 
 With a HOC, we can abstract that away into something called a class factory. It's an old concept coming back in vogue now that JavaScript has classes.
 
@@ -325,15 +338,14 @@ Consult my [ES6 cheatsheet](https://es2017.io) for details on that.
 Using our new `D3blackbox` HOC to make an axis looks like this:
 
 ```javascript
-const Axis = D3blackbox(function () {
-  const scale = d3.scaleLinear()
-                  .domain([0, 10])
-                  .range([0, 200]);
-  const axis = d3.axisBottom(scale);
+const Axis = D3blackbox(function() {
+    const scale = d3
+        .scaleLinear()
+        .domain([0, 10])
+        .range([0, 200]);
+    const axis = d3.axisBottom(scale);
 
-  d3.select(this.refs.anchor)
-    .call(axis);
-
+    d3.select(this.refs.anchor).call(axis);
 });
 ```
 
@@ -353,11 +365,11 @@ Let's say [the barchart example for earlier](https://cdn.rawgit.com/mbostock/388
 
 As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. We're going to look at full-feature integration where React does the rendering and D3 calculates the props.
 
-To do that, we're going to follow a 3-part pattern: 
+To do that, we're going to follow a 3-part pattern:
 
-- set up D3 objects as class properties 
-- update D3 objects when component updates 
-- output SVG in `render()`
+*   set up D3 objects as class properties
+*   update D3 objects when component updates
+*   output SVG in `render()`
 
 It's easiest to show you with an example.
 
@@ -365,7 +377,7 @@ Let's build a rectangle that changes color based on prop values. We'll render a 
 
 Yes, it looks like a trivial example, but color-as-information is an important concept in data visualization.
 
-I suggest following along in CodeSandbox for now. 
+I suggest following along in CodeSandbox for now.
 
 <iframe src="https://codesandbox.io/embed/985xmjrvx4" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
@@ -375,11 +387,7 @@ We start with a Swatch component that draws a rectangle and fills it with a colo
 
 ```jsx
 const Swatch = ({ color, width, x }) => (
-    <rect width={width}
-      height="20"
-      x={x}
-      y="0"
-      style={{fill: color}} />
+    <rect width={width} height="20" x={x} y="0" style={{ fill: color }} />
 );
 ```
 
@@ -460,6 +468,8 @@ Can you turn the color scale into a simple bar chart with random data? What abou
 
 [Checkerboard solution](https://codesandbox.io/s/036y4jj30w)
 
+[Barchart solution](https://codesandbox.io/s/r1r4myr5vq)
+
 # About server-side-rendering SSR
 
 <iframe src="https://server-side-d3-poc-mamdozxwze.now.sh/" width="120%" height="700" style="border: 0px"></iframe>
@@ -472,21 +482,21 @@ You can use the full feature integration approach to support server-side renderi
 
 Here's the general approach 👇
 
-1. You hit reload
-2. Server reads `index.html` from [create-react-app](https://github.com/facebookincubator/create-react-app)
-3. Server reads local CSV file with data
-4. Server renders `<App />` into root HTML element
-5. Server sends the full `index.html` to your browser
-6. Browser shows HTML with the chart
-7. Browser loads remote CSV file with data
-8. Browser runs `ReactDOM.hydrate()` to render `<App />`
-9. `<App />` takes over the DOM and becomes a normal webapp
+1.  You hit reload
+2.  Server reads `index.html` from [create-react-app](https://github.com/facebookincubator/create-react-app)
+3.  Server reads local CSV file with data
+4.  Server renders `<App />` into root HTML element
+5.  Server sends the full `index.html` to your browser
+6.  Browser shows HTML with the chart
+7.  Browser loads remote CSV file with data
+8.  Browser runs `ReactDOM.hydrate()` to render `<App />`
+9.  `<App />` takes over the DOM and becomes a normal webapp
 
 Some parts of this are efficient.
 
 `ReactDOM.hydrate` avoids re-rendering parts of the DOM that were already rendered by your server. In our case that's everything except the axes.
 
-Some parts of this are inefficient. 
+Some parts of this are inefficient.
 
 The server shouldn't need to read the CSV and HTML files on every request. You could do that on startup and save the strings in a variable. They're static.
 
@@ -513,28 +523,32 @@ class App extends Component {
 
         this.state = {
             data: (props.data || []).map(this.rowParse)
-        }
+        };
     }
 
     dateParse = d3.timeParse("%d %b %Y");
 
     rowParse = ({ date, time, runner }) => ({
         date: this.dateParse(date),
-        time: time.split(':')
-                  .map(Number)
-                  .reverse()
-                  .reduce((t, n, i) => i > 0 ? t+n*60**i : n),
+        time: time
+            .split(":")
+            .map(Number)
+            .reverse()
+            .reduce((t, n, i) => (i > 0 ? t + n * 60 ** i : n)),
         runner
     });
 
     componentWillMount() {
         if (!this.state.data.length) {
-            d3.csv("https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv")
-              .row(this.rowParse)
-              .get(data => this.setState({ data }))
+            d3
+                .csv(
+                    "https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv"
+                )
+                .row(this.rowParse)
+                .get(data => this.setState({ data }));
         }
     }
-    
+
     // render stuff
 }
 ```
@@ -545,20 +559,21 @@ In the `constructor` we copy data from props into `state`. That's because compon
 
 In `componentWillMount` we now check if data is already present. If it isn't, we load it and everything works the same as it always has.
 
-## Hydrate *after* data loads
+## Hydrate _after_ data loads
 
-The final piece of the puzzle is hydrating your app *after* your data is done loading. You're already showing a chart, there's no need to be hasty and `ReactDOM.hydrate` as soon as your JavaScript loads.
+The final piece of the puzzle is hydrating your app _after_ your data is done loading. You're already showing a chart, there's no need to be hasty and `ReactDOM.hydrate` as soon as your JavaScript loads.
 
 You can't detect that your component already had children and avoid replacing them until you're ready. Instead, you can wait to hydrate in the first place.
 
 ```javascript
-d3.csv("https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv")
-  .row(this.rowParse)
-  .get(data =>
-      ReactDOM.hydrate(<App data={data} />, document.getElementById('root'))
-  );
+d3
+    .csv(
+        "https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv"
+    )
+    .row(this.rowParse)
+    .get(data =>
+        ReactDOM.hydrate(<App data={data} />, document.getElementById("root"))
+    );
 ```
 
-And you have successfully solved the Flash of Doom seen in most D3 charts. 
-
-
+And you have successfully solved the Flash of Doom seen in most D3 charts.
