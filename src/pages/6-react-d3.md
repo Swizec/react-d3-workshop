@@ -455,3 +455,104 @@ Can you turn the color scale into a simple bar chart with random data? What abou
 [Checkerboard solution](https://codesandbox.io/s/036y4jj30w)
 
 # About server-side-rendering SSR
+
+<iframe src="https://server-side-d3-poc-mamdozxwze.now.sh/" width="120%" height="700" style="border: 0px"></iframe>
+
+[Live example SSR React + D3 👉](https://server-side-d3-poc-mamdozxwze.now.sh/)
+
+[GitHub link](https://github.com/Swizec/server-side-d3-poc)
+
+You can use the full feature integration approach to support server-side rendering of your D3 charts. Because React handles the DOM and D3 handles the data, you can safely render on the server.
+
+Here's the general approach 👇
+
+1. You hit reload
+2. Server reads `index.html` from [create-react-app](https://github.com/facebookincubator/create-react-app)
+3. Server reads local CSV file with data
+4. Server renders `<App />` into root HTML element
+5. Server sends the full `index.html` to your browser
+6. Browser shows HTML with the chart
+7. Browser loads remote CSV file with data
+8. Browser runs `ReactDOM.hydrate()` to render `<App />`
+9. `<App />` takes over the DOM and becomes a normal webapp
+
+Some parts of this are efficient.
+
+`ReactDOM.hydrate` avoids re-rendering parts of the DOM that were already rendered by your server. In our case that's everything except the axes.
+
+Some parts of this are inefficient. 
+
+The server shouldn't need to read the CSV and HTML files on every request. You could do that on startup and save the strings in a variable. They're static.
+
+We're also rendering `<App />` and running all of our React code twice. But this doesn't need to happen every time on the server. Cache that stuff!
+
+## Adapting your React D3 app to server-side
+
+Adjusting to server-side rendering required a small mind shift in the way I built my chart. Usually I like to use `componentWillMount` in the `<App />` component to load data. Until data loads the app renders a `null`, after that it returns a chart component.
+
+This makes apps easy to build and avoids issues with undefined data when rendering.
+
+But it throws away all benefits of server-side rendering. With the `componentWillMount` approach, you're loading the fully rendered chart, replacing it with an empty component, then re-rendering it once data loads on the client.
+
+![](https://upload.wikimedia.org/wikipedia/commons/3/3b/Paris_Tuileries_Garden_Facepalm_statue.jpg)
+
+Here's what you do instead: Accept data as props. Only load in `componentWillMount` if no data was given.
+
+Like this 👇
+
+```javascript
+class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: (props.data || []).map(this.rowParse)
+        }
+    }
+
+    dateParse = d3.timeParse("%d %b %Y");
+
+    rowParse = ({ date, time, runner }) => ({
+        date: this.dateParse(date),
+        time: time.split(':')
+                  .map(Number)
+                  .reverse()
+                  .reduce((t, n, i) => i > 0 ? t+n*60**i : n),
+        runner
+    });
+
+    componentWillMount() {
+        if (!this.state.data.length) {
+            d3.csv("https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv")
+              .row(this.rowParse)
+              .get(data => this.setState({ data }))
+        }
+    }
+    
+    // render stuff
+}
+```
+
+In the `constructor` we copy data from props into `state`. That's because components that load their own data usually keep it in state and putting it there means fewer changes to the rest of your code.
+
+`rowParse` is a helper method that turns individual rows from CVS strings into correct data types. Dates for `date`, seconds for `time` to win the marathon, and `runner` stays a string.
+
+In `componentWillMount` we now check if data is already present. If it isn't, we load it and everything works the same as it always has.
+
+## Hydrate *after* data loads
+
+The final piece of the puzzle is hydrating your app *after* your data is done loading. You're already showing a chart, there's no need to be hasty and `ReactDOM.hydrate` as soon as your JavaScript loads.
+
+You can't detect that your component already had children and avoid replacing them until you're ready. Instead, you can wait to hydrate in the first place.
+
+```javascript
+d3.csv("https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv")
+  .row(this.rowParse)
+  .get(data =>
+      ReactDOM.hydrate(<App data={data} />, document.getElementById('root'))
+  );
+```
+
+And you have successfully solved the Flash of Doom seen in most D3 charts. 
+
+
