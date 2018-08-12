@@ -1,11 +1,10 @@
 import React from "react";
 import Link from "gatsby-link";
-import { sortBy } from "lodash";
 import InstagramEmbed from "react-instagram-embed";
 
 import Swizec from "../images/swizec.jpg";
-import MortyMindblowers from "../images/mortysmindblowers.mp4";
-import ConnectedDataviz from "../images/connected-dataviz.mp4";
+import PieBarchart from "../images/connected-dataviz.mp4";
+import DashboardViz from "../images/dog-dashboard-scatterplots.mp4";
 import RockOn from "../images/rock-on.gif";
 import { Video, SignoffImg, Signature } from "../elements";
 
@@ -47,24 +46,28 @@ const Welcome = () => (
         <a href="https://swizec.com">
             <img src={Swizec} title="Swizec at Write the Docs Prague in 2014" />
         </a>
-        <h1>Hello new friend 👋</h1>
+        <h1>Hello friend 👋</h1>
+
+        <p>Welcome to Swizec's Data visualization with React & D3 workshop.</p>
 
         <p>
-            Welcome to Swizec's Data visualization with React & D3v4 workshop.
-        </p>
-
-        <p>
-            Usually this is a 2 day workshop that starts with the basics of
-            React and ends with beautiful visualizations. At Reactathon we're
-            focusing on the visualization part.
+            This is often a 2 day workshop that starts with the basics of React
+            and ends with beautiful visualizations. Today we're focusing on the
+            visualization part. I made some tweaks to exercises so we can do the
+            whole workshop in about 4 hours. We'll see how it goes.
         </p>
         <p>
-            To get the most out of this workshop, you should be familiar with 👇
+            These materials are going to stay online forever. I make tweaks when
+            I do new workshops so check back any time.
+        </p>
+        <p>
+            To get the most out of today's workshop, you should be familiar with
+            👇
         </p>
         <ul>
             <li>React</li>
             <li>ideas behind componentization</li>
-            <li>stateful rendering</li>
+            <li>stateful/declarative rendering</li>
             <li>JSX</li>
             <li>modern ES6+ syntax</li>
             <li>component lifecycles</li>
@@ -109,12 +112,13 @@ const Welcome = () => (
 
         <p>
             By the end of the day you'll have built your first React & D3 data
-            visualization. A pair of connected charts that load a static
-            datafile and render it as a piechart and a barchart.
+            visualization. A set of connected charts exploring the relationship
+            between dog breed size, intelligence, and popularity. A dashboard if
+            you will.
         </p>
 
         <p>
-            <Video src={ConnectedDataviz} autoPlay loop />
+            <Video src={DashboardViz} autoPlay loop muted />
         </p>
         <p>
             We're gonna keep it simple. React, D3, and Chroma. No Redux or 3rd
@@ -134,9 +138,9 @@ const WhoSwiz = () => (
             hideCaption
         />
         <p>
-            Hi, I’m Swizec Teller, a geek with a hat. I help coders become
+            Hi, I’m Swizec Teller, a geek with a hat. I help programmers become
             software engineers. Through this workshop I'm going to teach you all
-            I know about building data visualization with React & D3v4.
+            I know about building data visualization with React & D3.
         </p>
         <p>
             You can find out stuff about me, if you ask Google. But generally
@@ -195,9 +199,8 @@ const Start = () => (
         </p>
         <h2>But first ask yourself this: Why are you here?</h2>
         <p>
-            Answering that question will help you get the most out of this
-            workshop. You can call your answer out to the group, or just think
-            about it.
+            Answering that question will help you get the most out of today. You
+            can call your answer out to the group, or just think about it.
         </p>
         <p>
             Code you'll write today works with <b>React 16</b> and uses modern{" "}
@@ -239,6 +242,9 @@ const CoolThings = () => (
             </ProjectLink>
             <ProjectLink url="https://swizec.github.io/migrations-map/">
                 A zoomable pannable map of global migrations
+            </ProjectLink>
+            <ProjectLink url={PieBarchart}>
+                A connected piechart barchart viz of travel expenses
             </ProjectLink>
             <ProjectLink url="/">This page :)</ProjectLink>
         </ul>

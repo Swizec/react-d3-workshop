@@ -29,7 +29,7 @@ const Header = () => (
                         textShadow: "none"
                     }}
                 >
-                    Data visualization with React & D3v4 -{" "}
+                    Data visualization with React & D3 2018 -{" "}
                     <small>workshop by Swizec</small>
                 </Link>
             </h2>
