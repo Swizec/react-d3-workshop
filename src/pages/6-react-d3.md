@@ -385,7 +385,7 @@ Something like this 👇
 
 ![](../images/scatterplot.png)
 
-*Ignore this stuff below, we're flying by the seat of our pants today. I'll update the page later.*
+#### *Ignore this stuff about color swatches, we're flying by the seat of our pants today. I'll update the page later.*
 
 Let's build a rectangle that changes color based on prop values. We'll render a few of them to make a color scale.
 

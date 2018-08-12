@@ -1,14 +1,12 @@
 ---
-title: Swizec's transport expenses dataviz
+title: Dog breed size, intelligence, and popularity
 ---
 
 It's time to build something cool.
 
-We're going to build a 2-chart dashboard. A piechart and a barchart showing the same data. Hovering one of the charts, reflects on the other. Both change the title to show you what you're hovering over.
+We're going to build a dashboard. A few scatterplots combining 3 different datasets. Hovering a point highlights it in other charts.
 
-As our dataset we're going to borrow a CSV file I got from my expense tracking app. Specifically the `transport` category because I got curious one evening. Ubers really add up.
-
-![](../images/connected-dataviz.gif)
+You already built two components we'll use! A scatterplot and an axis. 💪
 
 We're using the code-along approach 👇
 
@@ -19,7 +17,7 @@ We're using the code-along approach 👇
 
 The following is an outline of what we're doing to help us keep on track.
 
-We're going to copypasta a lot of data manipulation code from my original repo. Writing allt that isn't fun and is often the most time consuming part of building a dataviz project.
+We're going to copypasta a lot of data manipulation code from my original repo. Writing all tthat isn't fun and is often the most time consuming part of building a dataviz project.
 
 ## Clone starter repo
 
@@ -30,9 +28,9 @@ I've prepared a starter repo that comes with
 *   stubbed out components and files
 *   all necessary dependencies
 
-[expenses dashboard starter repo](https://github.com/Swizec/react-d3-workshop-mar-2018)
+[dogs dashboard starter repo](https://github.com/Swizec/workshop-starter-aug-12)
 
-[final solution](https://github.com/Swizec/react-d3-workshop-expenses-example)
+[final solution](https://github.com/Swizec/dog-size-intelligence-popularity)
 
 ```
 $ cd
@@ -41,50 +39,14 @@ $ yarn/npm install
 
 You now have everything you need to get started.
 
-## Load and parse data
+## Walk through data loading and parsing
 
-## Render a barchart
+## Copypasta scatterplot implementation
 
-### Set up scales
+## Add scatterplot titles
 
-### Render Bars in a loop
+## Add datapoint highlighting
 
-### Make Bar component
+## Tie plots together with React.Context
 
-## Render a piechart
-
-### Set up pie generator
-
-### Render arcs in a loop
-
-### Set up arc generator
-
-### Render arc
-
-## Connect hover effects
-
-### Add hover callbacks to bars and arcs
-
-### Track selected tag in main component
-
-### Pass selected tag down to arcs and bars
-
-### Change color of selected element
-
-### Render name of current tag
-
-## Add data streaming animation
-
-### Add 1 datapoint per N milliseconds
-
-### Add transitions to arcs
-
-### Render a count of datapoints
-
-## Bonus
-
-### Add axes to barchart
-
-### Add transitions to barchart
-
-### Render more charts for different subsets of data
+## Add descriptive header copy

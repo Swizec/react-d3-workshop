@@ -63,6 +63,12 @@ The two we can achieve with easing functions are:
 
 Let me show you how it works on a small example. We're drawing a field of 50 by 50 circles that "flash" when touched. The end result looks like there's a snake following your cursor.
 
+## A Ball swipe transition
+
+Again some flying by the seat of our pants. We're using a new example, ignore the rainbow snake :)
+
+<iframe src="https://codesandbox.io/embed/618mr9r6nr" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
 ## Rainbow snake
 
 You can play with the code on CodeSandbox. Follow along as I explain how it works. Tweak parameters and see what happens :)
@@ -318,5 +324,3 @@ d3
 ```
 
 Select an element, a `<path>`, start a transition, make it last `80` milliseconds, `attrTween` the path definition, `d`, attribute using the tween returned from `arcTween`.
-
-We're going to use this `arcTween` in our example project later.
