@@ -1,5 +1,5 @@
 ---
-title: "Intro to D3v4"
+title: "Intro to D3"
 ---
 
 Welcome to the Dataviz section. 📈
@@ -20,9 +20,9 @@ D3 is the best library out there for custom data visualization. It comes with a 
 
 Most data visualization you see on the web is built with D3. The New York Times uses it, Guardian uses it, r/dataisbeautiful is full of it.
 
-Where things get tricky, is learning it from scratch.
+Learning D3 from scratch is where life gets tricky.
 
-There are a few gotchas that trip people up and make examples look like magic. You've probably noticed this, if you ever looked at an example project built with D3. They're full of spaghetti code, global variables, and often aren't made to be maintainable.
+There are a few gotchas that trip you up and make examples look like magic. You've probably noticed this, if you ever looked at an example project built with D3. They're full of spaghetti code, global variables, and often aren't made to be maintainable.
 
 Most examples are just one-off toys after all. It's art.
 
@@ -80,11 +80,16 @@ Most people don't go that far. They don't have to.
 
 You start with a problem, find similar examples, do some copy pasta, tweak until it works and end up with a working visualization you don't understand. You'd be surprised how few people actually understand how their D3 dataviz works.
 
-But really, there are only 3 key concepts you have to grok, to understand every D3 example out there. 😱
+But there are only 3 key concepts you have to grok, to understand every D3 example out there. 😱
 
 ## 1) Data manipulation vs. DOM manipulation
 
-All D3 examples are split into two parts: Data manipulation and DOM manipulation. First you prep your values, then you render.
+All D3 examples are split into two parts: 
+
+1. Data manipulation
+2. DOM manipulation 
+
+First you prep your values, then you render.
 
 You have to go through many examples to notice what's going on. Inference learning is hard. Most beginners miss this pattern and it makes D3 look more confusing than it is.
 
@@ -107,11 +112,11 @@ Bostock here first prepares his data:
 - loads his dataset (d3.tsv) and updates his scales' domains
 - uses scales to calculate attributes during DOM manipulation
 
-In the DOM manipulation part, he puts shapes and objects into an SVG. This is the part you then see in the browser.
+In the DOM manipulation part, he puts shapes and objects into an SVG. This is the part that shows up in your browser.
 
 ![DOM manipulation code](../images/barchart-dom.png)
 
-DOM manipulation in D3 happens via D3 selections. They're a lot like jQuery `$(something)`. Personally I like to do this part with React as described in my book, [React+D3v4](https://swizec.com/reactd3js).
+DOM manipulation in D3 happens via D3 selections. They're a lot like jQuery `$(something)`. Personally I like to do this part with React. That's the approach we're learning today.
 
 Here Bostock does a few things
 
@@ -158,7 +163,7 @@ You're most often going to use scales to turn your data values into coordinates.
 
 Sure `.enter.append` looks like magic, but D3 layouts are the real mind=blown of the D3 ecosystem. They take your input data and return a full-featured visualization thing.
 
-Like a force layout using forces between nodes to place them on the screen.
+For example, a force layout using forces between nodes to place them on the screen.
 
 <iframe src="https://cdn.rawgit.com/mbostock/4062045/raw/5916d145c8c048a6e3086915a6be464467391c62/index.html" width="100%" height="480" style="border: 0px"></iframe>
 
@@ -166,11 +171,11 @@ Or a circle packing layout that neatly packs circles.
 
 <iframe src="https://cdn.rawgit.com/mbostock/4063530/raw/fbadda6a3eaf72521f6f45cfa8e1d119bd2b0248/index.html" width="100%" height="480" style="border: 0px"></iframe>
 
-I don't know how these work internally. I've yet to try building one for others to use. 
+I don't know the exact maths that goes into most of these. And that's the point, you don't have to.
 
-But here's a key insight about the magic of layouts: They're the data part.
+Here's a key insight about the magic of layouts: They're the data part.
 
-You take a `forceLayout` for example and feed it your data. It returns an object with a `tick` event callback.
+You take a `forceLayout` and feed it your data. It returns an object with a `tick` event callback.
 
 ```javascript
 var simulation = d3.forceSimulation()
@@ -181,11 +186,11 @@ var simulation = d3.forceSimulation()
 
 This `simulation` now handles everything about rendering nodes. Changes their positions on every `tick` callback.
 
-But it is up to you to render them. A layout handles your dataviz in the abstract. You're still the one in control of rendering.
+But it is up to you to render them. A layout handles your dataviz in the abstract. You're still in control of rendering.
 
 For a force layout, you have to update the DOM on every tick of the animation. For circle packing, you render it once.
 
-It took me a while to get this and once I did, all the fancy looking visualizations started to make sense.
+Once I grokked this, all the fancy visualizations out there started making sense. It also means we can use these fancy layouts in React 🙌
 
 # Summary 
 

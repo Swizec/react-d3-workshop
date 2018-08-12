@@ -2,9 +2,9 @@
 title: Integrating D3 with React
 ---
 
-D3 is great out of the box. There's nothing inherently wrong it it at all. It's flexible and gets the job done. You don't necessarily need React nor any other library to create data visualizations.
+D3 is great out of the box. There's nothing inherently wrong with it at all. It's flexible and gets the job done. You don't *need* React nor any other library to create data visualizations.
 
-So why use React? There are a few really good reasons why React makes your data visualization code even better.
+So why use React? There's a few ways React makes your data visualization code even better.
 
 # Why
 
@@ -48,6 +48,8 @@ class Alphabet extends Component {
     }
 }
 ```
+
+`ReactTransitionGroup` has changed its API so the full example 👆 needs some updating, but the core idea remains: Letters handle transitions, you render in a loop.
 
 ## Reusable viz components
 
@@ -111,7 +113,7 @@ class Dataviz extends Component {
 
 # Using a library (and when not to)
 
-The easiest way to achieve all these benefits is to use a library. Something that comes with pre-built visualization components you can plug into your app and move on with life.
+The easiest way to achieve these benefits is to use a library. Something that comes with pre-built visualization components you can plug into your app and move on with life.
 
 Most data visualization libraries are built on top of D3. They often give you basic charts and graphs, some customizability, and a world of pain when you stray from the beaten path.
 
@@ -159,7 +161,7 @@ Nivo is another attempt to bring you a set of basic charting components. Comes w
 
 VX is the closest to the integration approaches we're going to discuss today. React for rendering, D3 for calculations. When you build a set of custom components for your organization, a flavor of VX is essentially what you come up with.
 
-That's why it's often what I recommend teams use when they need to get started quickly.
+That's why I often recommend teams use VX when they need to get started quickly.
 
 <iframe src="https://codesandbox.io/embed/k5853pryrv" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
@@ -171,15 +173,17 @@ To quote [Marcos Iglesias](https://www.smashingmagazine.com/2018/02/react-d3-eco
 
 ### Quality
 
-> Let’s say we fix quality. We could aim to have a code base that is well tested, up to date with D3.js version 4 (soon to be v5) and with comprehensive documentation.
+> Let’s say we fix quality. We could aim to have a code base that is well tested, up to date with D3.js and with comprehensive documentation.
 
 ### Time
 
 > If we think about **time**, a useful question to ask ourselves is, “Is this a long-term investment?” If the response is “yes,” then I would advise you to create a library based on D3.js and wrap it with React using the lifecycle methods approach. This approach separates our code by technologies and is more time-resistant.
 
+But leads to lower code quality and worse UI performance.
+
 ### Scope
 
-> When we deal with **scope**, we should think of whether what we need is a small number of basic charts, a one-off complex visualization or several highly customized graphics. In the first case, I would again choose the closest library to the specifications and fork it. For bespoke data visualizations that contain a lot of animations or interactions, building with regular D3.js is the best option.
+> When we deal with **scope**, we should think of whether what we need is a small number of basic charts, a one-off complex visualization or several highly customized graphics. In the first case, I would again choose the closest library to the specifications and fork it. For bespoke data visualizations that contain a lot of animations or interactions, building with regular D3.js and React is the best option.
 
 ### Cost
 
@@ -296,15 +300,19 @@ We created an `Axis` component that extends React base `Component` class. We can
 
 Our component has a render method, which returns a grouping element (`g`) moved `10px` to the right and `30px` down using the transform attribute. Same as before.
 
-We added a `ref` attribute, which lets us reference elements in our component via `this.refs`. This makes D3 integration cleaner.
+We created a React Ref using `this.gRef = React.createRef()` and added it to our render via the `ref` attribute. This gives us an easy to use reference to the raw DOM node.
 
-The body of `renderAxis` should look familiar. It's where we put code from the pure D3 example. Scale, axis, select, call. There's no need to append a grouping element; we're already there with `this.refs.g`.
+The body of `d3render` should look familiar. It's where we put code from the pure D3 example. Scale, axis, select, call. There's no need to append a grouping element; we're already there with `this.gRef.current`.
 
-For the manual re-rendering part, we call `renderAxis` in `componentDidUpdate` and `componentDidMount`. This ensures that our axis re-renders every time React's engine decides to render our component. On `state` and `prop` changes usually.
+For the manual re-rendering part, we call `d3render` in `componentDidUpdate` and `componentDidMount`. This ensures that our axis re-renders every time React's engine decides to render our component. On `state` and `prop` changes usually.
 
 That wasn't so bad, was it?
 
-To make our axis more useful, we could get the scale and axis orientation from props.
+To make our axis more useful, we could get the scale and axis orientation from props. Perhaps even a label!
+
+Try that as an exercise. Here's my solution 👇
+
+[Peek after solving](https://codesandbox.io/s/5ywlj6jn4l)
 
 #### HOC version
 
@@ -321,13 +329,13 @@ With a HOC, we can abstract that away into something called a class factory. It'
 
 You can think of it as a function that takes some params and creates a class – a React component. Another way to think about HOCs is that they're React components wrapping other React components and a function that makes it easy.
 
-Let's build a HOC for D3 blackbox integration. You can use it in the main example project.
+Let's build a HOC for D3 blackbox integration.
 
 A D3blackbox HOC looks like this:
 
 <iframe src="https://codesandbox.io/embed/5v21r0wo4x" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-You'll recognize most of that code from earlier. We have `componentDidMount` and `componentDidUpdate` lifecycle hooks that call `D3render` on component updates. This used to be called `renderAxis`. Render renders a grouping element as an anchor into which D3 can put its stuff.
+You'll recognize most of that code from earlier. We have `componentDidMount` and `componentDidUpdate` lifecycle hooks that call `D3render` on component updates. Render renders a grouping element as an anchor into which D3 can put its stuff.
 
 Because D3render is no longer a part of the component, we have to use `.call` to give it the scope we want: this class, or rather this instance of the React component.
 
@@ -345,13 +353,11 @@ const Axis = D3blackbox(function() {
         .range([0, 200]);
     const axis = d3.axisBottom(scale);
 
-    d3.select(this.refs.anchor).call(axis);
+    d3.select(this.anchor.current).call(axis);
 });
 ```
 
-It’s the same code as we had in `renderAxis` before. The only difference is that the function is wrapped in a `D3blackbox` call. This turns it into a React component.
-
-I'm not 100% whether wrapping a function in a React component counts as a real HOC, but let's roll with it. More proper HOCs are React components wrapped in components.
+It’s the same rendering code as we had before. The only difference is that the function is wrapped in a `D3blackbox` call. This turns it into a React component.
 
 You can play with this example on CodeSandbox, [here](https://codesandbox.io/s/5v21r0wo4x?from-embed).
 
@@ -372,6 +378,14 @@ To do that, we're going to follow a 3-part pattern:
 *   output SVG in `render()`
 
 It's easiest to show you with an example.
+
+Let's build a scatterplot. Take a random array of two-dimensional data, render in a loop. Make magic.
+
+Something like this 👇
+
+![](../images/scatterplot.png)
+
+*Ignore this stuff below, we're flying by the seat of our pants today. I'll update the page later.*
 
 Let's build a rectangle that changes color based on prop values. We'll render a few of them to make a color scale.
 
@@ -504,15 +518,15 @@ We're also rendering `<App />` and running all of our React code twice. But this
 
 ## Adapting your React D3 app to server-side
 
-Adjusting to server-side rendering requires a small mind shift in the way you build your chart. Usually I like to use `componentWillMount` in the `<App />` component to load data. Until data loads the app renders a `null`, after that it returns a chart component.
+Adjusting to server-side rendering requires a small mind shift in the way you build your chart. Usually I like to use `componentDidMount` in the `<App />` component to load data. Until data loads the app renders a `null`, after that it returns a chart component.
 
 This makes apps easy to build and avoids issues with undefined data when rendering.
 
-But it throws away all benefits of server-side rendering. With the `componentWillMount` approach, you're loading the fully rendered chart, replacing it with an empty component, then re-rendering it once data loads on the client.
+But it throws away all benefits of server-side rendering. With the `componentDidMount` approach, you're loading the fully rendered chart, replacing it with an empty component, then re-rendering it once data loads on the client.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/3/3b/Paris_Tuileries_Garden_Facepalm_statue.jpg)
 
-Here's what you do instead: Accept data as props. Only load in `componentWillMount` if no data was given.
+Here's what you do instead: Accept data as props. Only load in `componentDidMount` if no data was given.
 
 Like this 👇
 
@@ -538,7 +552,7 @@ class App extends Component {
         runner
     });
 
-    componentWillMount() {
+    componentDidMount() {
         if (!this.state.data.length) {
             d3
                 .csv(
@@ -557,7 +571,7 @@ In the `constructor` we copy data from props into `state`. That's because compon
 
 `rowParse` is a helper method that turns individual rows from CVS strings into correct data types. Dates for `date`, seconds for `time` to win the marathon, and `runner` stays a string.
 
-In `componentWillMount` we now check if data is already present. If it isn't, we load it and everything works the same as it always has.
+In `componentDidMount` we now check if data is already present. If it isn't, we load it and everything works the same as it always has.
 
 ## Hydrate _after_ data loads
 
@@ -568,10 +582,9 @@ You can't detect that your component already had children and avoid replacing th
 ```javascript
 d3
     .csv(
-        "https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv"
-    )
-    .row(this.rowParse)
-    .get(data =>
+        "https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv",
+		    this.rowParse)
+    .then(data =>
         ReactDOM.hydrate(<App data={data} />, document.getElementById("root"))
     );
 ```
