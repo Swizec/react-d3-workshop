@@ -1,4 +1,4 @@
----
+**---
 title: Integrating D3 with React
 ---
 
@@ -365,124 +365,120 @@ You can play with this example on CodeSandbox, [here](https://codesandbox.io/s/5
 
 Use the D3blackbox approach to take a random D3 example and render it as a React component.
 
-Let's say [the barchart example for earlier](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/index.html). You can use [this link](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/data.tsv) for the data file.
+Let's say [the barchart example from earlier](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/index.html). You can use [this link](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/data.tsv) for the data file.
 
 ## Full-feature integration
 
-As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. We're going to look at full-feature integration where React does the rendering and D3 calculates the props.
+As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. The blackbox approach especially starts struggling when it comes to scale. The more charts and graphs and visualizations on your screen, the slower it becomes.
 
-To do that, we're going to follow a 3-part pattern:
+Someone once came to my workshop and said *"We used the blackbox approach and it takes several seconds to re-render our dashboard on any change. I'm here to learn how to do it better."*
 
-*   set up D3 objects as class properties
-*   update D3 objects when component updates
-*   output SVG in `render()`
+In our full-feature integration, React does the rendering and D3 calculates the props.
+
+Our goal  is to build controlled components that dutifully listen to their props and reconcile that with D3's approach that uses a lot of internal state.
+
+There are two situations we can find ourselves in:
+
+1. We know for a fact our component's props never change
+2. We think props could change
 
 It's easiest to show you with an example.
 
-Let's build a scatterplot. Take a random array of two-dimensional data, render in a loop. Make magic.
+Let's build a scatterplot step by step. Take a random array of two-dimensional data, render in a loop. Make magic.
 
 Something like this 👇
 
 ![](../images/scatterplot.png)
 
-#### *Ignore this stuff about color swatches, we're flying by the seat of our pants today. I'll update the page later.*
+### Props don't change
 
-Let's build a rectangle that changes color based on prop values. We'll render a few of them to make a color scale.
+The first case makes our life easier, but our component less flexible and reusable. It's great when you know in advance that there are features you're not going to support. 
 
-Yes, it looks like a trivial example, but color-as-information is an important concept in data visualization.
+Like, filtering your data or changing component size 👉 means your D3 scales don't have to change.
 
-I suggest following along in CodeSandbox for now.
+When our props don't change, we follow a 2-step integration process:
 
-<iframe src="https://codesandbox.io/embed/985xmjrvx4" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+* set up D3 objects as class properties
+* output SVG in `render()`
 
-We start with a Swatch component that draws a rectangle and fills it with a color.
+We don't have to worry about updating D3 objects on prop changes. Work done 👌
 
-### Swatch component
+#### Practical exercise
 
-```jsx
-const Swatch = ({ color, width, x }) => (
-    <rect width={width} height="20" x={x} y="0" style={{ fill: color }} />
-);
-```
+Build scatterplot together assuming no updates, use a live codesandbox.
 
-Looks like our earlier components, doesn't it? It's exactly the same: a functional stateless component that draws a rect element with some attributes - dimensions, position, and fill style.
+Steps to follow 👇
 
-Note that style is a dictionary, so we specify it with double curly braces: outer braces for a dynamic value, inner braces for a dictionary.
+- stub out the basic setup
+- generate random data
+- set up D3 scales
+- render circles for each entry
+- add axes
 
-Then we need a Colors component. It follows the full-featured integration structure: D3 objects as properties, an updateD3 function, plus some wiring for updates and rendering.
+### Props might update
 
-### Colors component, pt1
+When our props might update, the story is a little different. Since we're using D3 objects to calculate our SVG properties, we have to make sure those objects are updated *before* we render.
 
-```javascript
-class Colors extends Component {
-    colors = d3.schemeCategory20;
-    width = d3.scaleBand()
-          .domain(d3.range(20));
-```
+If you do it in `componentDidUpdate`, you will render a stale visualization.
 
-We start by inheriting from Component and defining defaults for D3 objects. this.colors is one of D3's predefined color scales. schemeCategory20 is a scale of 20 colors designed for categorization. It seemed like a good example, and you're welcome to try others.
+We follow a 3-step pattern:
 
-this.width is a D3 scale designed for producing bands, d3.scaleBand. As mentioned earlier, scales map domains to ranges. We know our domain is 20 colors, so we can statically set the domain as `[1, 2, 3, ..., 20]` with `d3.range(20)`.
+*   set up D3 objects in component state
+*   update D3 objects in `getDerivedStateFromProps`
+*   output SVG in `render()`
 
-`d3.range` generates a counting array, by the way. We'll use that a lot.
+`getDerivedStateFromProps` is the new lifecycle hook that replaces `componentWillX` that we used to have. Officially discouraged, it is the best tool we have to make sure D3 state is updated *before* we render.
 
-We'll use `this.width` to calculate widths and positions of our color swatches. Here's a picture from D3 docs to help you visualize what `scaleBand` does:
+Because `getDerivedStateFromProps` is called on every component render, not just when our props actually change, it's a good idea to use it only with `React.PureComponent` and to make sure we aren't recalculating stuff too often.
 
-![](../images/band.png)
+Use memoization helpers, check for actual changes before updating, stuff like that.
 
-### Colors component, pt2
+#### Practical exercise
 
-```javascript
-componentWillMount() {
- this.updateD3(this.props);
-}
+Update our scatterplot so it can deal with resizing and updating data.
 
-componentWillUpdate(newProps) {
- this.updateD3(newProps);
-}
+Steps 👇
 
-updateD3(props) {
- this.width.range([0, props.width]);
-}
-```
+- add an interaction that resizes the scatterplot
+- move scales to state
+- update scales in `getDerivedStateFromProps`
+- use `PureComponent`
+- add data changes
 
-`componentWillMount` and `componentWillUpdate` are component lifecycle hooks. Can you guess when they run?
+## Making our component more flexible with render props
 
-`componentWillMount` runs just before React's engine inserts our component into the DOM, and `componentWillUpdate` runs just before React updates it. That happens on any prop change or setState call.
+Our scatterplot doesn't look quite as nice as my screenshot earlier. That's because it's using regular SVG circles with no styling.
 
-Both of them call our `updateD3` method with the new value of props. We use it to update `this.width` scale's range. Doing so keeps the internal state of D3 objects in sync with React's reality. Without it, our component might render stale data.
+What if we wanted to render beautiful circles? Or stars? Or maybe something else entirely?
 
-Finally, we render a bunch of color swatches.
+We can use render props to give users of our scatterplot component the power to define how they want datapoints to render. 😱
 
-### Colors component, pt3
+You can think of it as a sort of inversion of control, another buzzword I've heard is "slots", or renderless components. The idea is that one of our props accepts a React component.
+
+We then use that prop to render our datapoints.
+
+It looks a little like this 👇
 
 ```javascript
-render() {
-    return (
-    <g>
-        {d3.range(20).map(i => (
-            <Swatch color={this.colors[i]}
-        width={this.width.step()}
-        x={this.width(i)} />
-         ))}
-    </g>
-    )
-}
+<Scatterplot
+	x={10} y={10}
+	data={data}
+	datapoint={(props) => <Datapoint {...props} />}
+>
 ```
 
-We create a grouping element to fulfill React's one child per component requirement, then render 20 swatches in a loop. Each gets a color from this.colors and a `width` and `x` from `this.width`.
+What's more, we can add interactions and other useful stuff to our `<Datapoint>` and `<Scatterplot>` doesn't have to know anything about it. All the scatterplot cares about is rendering two axes and a bunch of datapoints.
 
-After inserting into the DOM with ReactDOM, we get a series of 20 colorful rectangles.
+### Practical exercise
 
-Try changing the `width="400"` property of `<Colors />`. You'll see D3's scaleBand and our update wiring ensure the color strip renders correctly. For more fun, try changing the Colors component so it takes the color scale as a prop, then rendering multiple instances of `<Colors />` side-by-side.
+Let's use the render prop approach to make our scatterplot more reusable.
 
-# Practical exercise
+Steps 👇
 
-Can you turn the color scale into a simple bar chart with random data? What about a checkerboard?
-
-[Checkerboard solution](https://codesandbox.io/s/036y4jj30w)
-
-[Barchart solution](https://codesandbox.io/s/r1r4myr5vq)
+- accept a render prop
+- use it to render datapoints
+- make datapoint component look nice
+- add a mouseover effect
 
 # About server-side-rendering SSR
 
