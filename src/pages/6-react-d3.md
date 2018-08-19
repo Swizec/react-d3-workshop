@@ -459,7 +459,7 @@ We then use that prop to render our datapoints.
 
 It looks a little like this 👇
 
-```javascript
+```jsx
 <Scatterplot
 	x={10} y={10}
 	data={data}
@@ -585,4 +585,4 @@ d3
     );
 ```
 
-And you have successfully solved the Flash of Doom seen in most D3 charts.
+And you have solved the Flash of Doom seen in most D3 charts. 🤘

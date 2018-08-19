@@ -61,165 +61,58 @@ The two we can achieve with easing functions are:
 
 [From easings.net](http://easings.net)
 
-Let me show you how it works on a small example. We're drawing a field of 50 by 50 circles that "flash" when touched. The end result looks like there's a snake following your cursor.
+Let me show you how it works on a small example. We're creating a component that swipes left or right when you click. You can think of it as a toggle button.
 
 ## A Ball swipe transition
 
-Again some flying by the seat of our pants. We're using a new example, ignore the rainbow snake :)
-
 <iframe src="https://codesandbox.io/embed/618mr9r6nr" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-## Rainbow snake
+Just like with earlier examples, our goal is to build a component that's fully controlled by its props. We're still using React for rendering and D3 for calculating things, but we have to mix approaches.
 
-You can play with the code on CodeSandbox. Follow along as I explain how it works. Tweak parameters and see what happens :)
+- React controls the DOM
+- D3 takes over during transition
+- React regains control
 
-<iframe src="https://codesandbox.io/embed/vmjxjl7y73" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+We're using `state` as a staging area for our prop changes. That allows us to apply changes over time.
 
-### App
+A 4-step approach develops:
 
-The App component needs only a render method that returns an SVG. Yes, that means it could've been a functional stateless component.
+1. Copy relevant props into state
+2. Render from state
+3. Use D3 transitions in `componentDidUpdate`
+4. Update state when transition ends
 
-```jsx
-  render() {
-    const width = 600,
-          N = 50,
-          pos = d3.scalePoint()
-                  .domain(d3.range(N))
-                  .range([0, width])
-                  .padding(5)
-                  .round(true);
+It's important to tell React what's going on after we're done updating the DOM. Otherwise it gets confused and might start throwing errors about DOM nodes not matching their React state.
 
-    return (
-      <svg width="600" height="600">
-        {d3.range(N).map(x =>
-           d3.range(N).map(y =>
-             <Dot x={pos(x)} y={pos(y)} key={`${x}-${y}`}
-                  maxPos={width} />
-        ))}
-      </svg>
-    )
-  }
-```
+### Practical exercise
 
-We're rendering a 600px by 600px SVG, with 50 nodes per row and column. We use D3's scalePoint for dot positioning because it does everything we need. Makes sure they're evenly spaced, gives them padding on the sides, and ensures coordinates are rounded numbers.
+Fork the sandbox above and add a similar transition on the vertical axis. Or maybe a circle size transition.
 
-To render the grid, we use two nested loops going from 0 to N. d3.range builds an array for us so we can .map over it. We return a `<Dot>` component for each iteration.
+Try different easing functions as well. [Here](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)'s a list of all that exist.
 
-Looking at this code: `x={pos(x)} y={pos(y)}` you can see why D3 scales are so neat. All positioning calculation boiled down to a 1-parameter function call. \o/
+# A note on transition and animation performance
 
-### Dot
+JavaScript transitions and animations are great when you need a lot of control over your transitions. Or when you need to stack and coordinate different animations.
 
-The Dot component has more moving parts. It needs a constructor, a transition callback – flash, a color getter, and a render method.
+But they have a big flaw: No GPU optimization.
 
-```javascript
-class Dot extends Component {
-  constructor(props) {
-    super(props);
+When you run into trouble depends on what exactly your'e doing, but eventually you're going to struggle with UI lag and jitteriness. You can solve this by using CSS transitions instead.
 
-    this.state = Object.assign({},
-                               props,
-                               {r: 5});
-  }
+The approach is similar, even easier in some cases. You don't have to worry about props and state at all, just set up the transition in your CSS and the browser will handle everything. You can render the same old way.
 
-  flash() {
-        // transition code
-  }
+## Why even use D3 transitions then?
 
-  get color() {
-    // color calculation
-  }
+Good question!
 
-  render() {
-    const { x, y, r, colorize } = this.state;
+Think of it as a spectrum of control and performance. 
 
-    return <circle cx={x} cy={y} r={r}
-             ref="circle" onMouseOver={this.flash.bind(this)}
-             style={{fill: colorize ? this.color : 'black'}} />
-  }
-}
-```
+Game loop gives you most control and least performance. You're running React's full rendering engine on every update.
 
-We initialize state in the component constructor. The quickest approach is to copy all props to state, even though we don't need all props to be in state.
+D3 transition gives you a lot of control and decent performance. You're running javascript for transitions, but updating the DOM directly.
 
-Normally, you want to avoid state and render all components from props. Functional principles, state is bad, and all that. But as Freddy Rangel likes to say "State is for props that change over time".
+CSS transition gives you least control and best performance. You change props and the GPU optimized CSS engine handles the rest.
 
-Guess what transitions are ... props that change over time :)
-
-So we put props in state and render from state. This lets us keep a stable platform while running transitions. It ensures that changes re-rendering Dot from above, won't interfere with D3 transitions.
-
-Not super important in our example because those changes never happen. But I had many interesting issues in this animated typing example. We'll look at that one later.
-
-For the render method, we return an SVG <circle> element positioned at `(x, y)`, with a radius, an onMouseOver listener, and a style with the fill color depending on state.colorize.
-
-### flash() – the transition
-
-When you mouse over one of the dots, its flash() method gets called as an event callback. This is where we transition to pops the circle bigger, then back to normal size.
-
-```javascript
-  flash() {
-    let node = d3.select(this.refs.circle),
-      R = this.state.r * 4;
-
-    this.setState({ colorize: true });
-
-    node
-      .transition()
-      .attr("r", R)
-      .duration(250)
-      .ease(d3.easeCubicOut)
-      .transition()
-      .attr("r", R / 3.5)
-      .duration(250)
-      .ease(d3.easeCubicOut)
-      .on("end", () =>
-        this.setState({
-          colorize: false,
-          r: R / 3.5
-        })
-      );
-  }
-```
-
-Here's what happens:
-
-1. We `d3.select` the `<circle>` node. This enables D3 to take over the rendering of this particular DOM node
-2. We `setState` to enable colorization. Yes, this triggers a re-render.
-3. We start a `transition` that changes the r attribute to 20 pixels over a duration of 250 milliseconds.
-4. We add an `easeCubicOut` easing function, which makes the animation look more natural
-5. When the transition ends, we start another similar transition, but change `r` back to `5`.
-6. When *that*'s done, we turn off colorization and trigger another re-render.
-
-If our transition didn't return things back to normal, I would use the 'end' opportunity, to sync React component state with reality. Something like `this.setState({r: 20})`.
-
-### get color() – the colorization
-
-Colorization doesn't have anything to do with transitions, but I want to explain how it works. Mostly to remind you that high school math is useful.
-
-Here's what the colored grid looks like:
-
-![](../images/colored-grid.png)
-
-Colors follow a radial pattern even though d3.interpolateWarm takes a single argument in the [0, 1] range. We achieve the pattern using circle parametrization.
-
-`x^2 + y^2 = r^2`
-
-Calibrate a linear scale to translate between `[0, maxR^2]` and `[0, 1]`, then feed it `x^2 + y^2` and you get the `interpolateWarm` parameter. Magic :)
-
-```javascript
-  get color() {
-    const { x, y, maxPos } = this.state;
-
-    const t = d3.scaleLinear()
-                .domain([0, 1.2*maxPos**2])
-                .range([0, 1]);
-
-    return d3.interpolateWarm(t(x**2 + y**2));
-  }
-```
-
-We calibrate the t scale to 1.2*maxPos**2 for two reasons. First, you want to avoid square roots because they're slow. Second, adding the 1.2 factor changes how the color scale behaves and makes it look better.
-
-At least I think so. Experiment ;)
+There are ways to make both game loops and D3 transitions more or less performant, but consider whether it's worth it to go through all that trouble.
 
 # Custom transitions with tweens
 
