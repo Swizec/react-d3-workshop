@@ -14,7 +14,7 @@ But first you need to learn about D3, the undisputed champion of data visualizat
 
 Because D3 can do all of this 👇
 
-<iframe src="https://d3js.org/" width="150%" height="450px" style="border: 0px; position: relative; left: -200px"></iframe>
+![](../images/_d3online.gif)
 
 D3 is the best library out there for custom data visualization. It comes with a rich ecosystem of functions for almost anything you can think of. From simple medians, to automatic axis generators, and force diagrams.
 

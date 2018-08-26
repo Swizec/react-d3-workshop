@@ -1,4 +1,4 @@
-**---
+---
 title: Integrating D3 with React
 ---
 
@@ -367,6 +367,10 @@ Use the D3blackbox approach to take a random D3 example and render it as a React
 
 Let's say [the barchart example from earlier](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/index.html). You can use [this link](https://cdn.rawgit.com/mbostock/3885304/raw/a91f37f5f4b43269df3dbabcda0090310c05285d/data.tsv) for the data file.
 
+Fork the d3-axis-hoc CodeSandbox and have some fun :)
+
+Here's [my solution](https://codesandbox.io/s/q86vx8y246)
+
 ## Full-feature integration
 
 As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. The blackbox approach especially starts struggling when it comes to scale. The more charts and graphs and visualizations on your screen, the slower it becomes.
@@ -415,6 +419,8 @@ Steps to follow 👇
 - render circles for each entry
 - add axes
 
+[Here's my solution](https://codesandbox.io/s/1zlp4jv494)
+
 ### Props might update
 
 When our props might update, the story is a little different. Since we're using D3 objects to calculate our SVG properties, we have to make sure those objects are updated *before* we render.
@@ -444,6 +450,8 @@ Steps 👇
 - update scales in `getDerivedStateFromProps`
 - use `PureComponent`
 - add data changes
+
+[Here's my solution](https://codesandbox.io/s/ll9kp8or0l)
 
 ## Making our component more flexible with render props
 
@@ -479,6 +487,8 @@ Steps 👇
 - use it to render datapoints
 - make datapoint component look nice
 - add a mouseover effect
+
+![Here's my solution](https://codesandbox.io/s/j73xlyr8v5)
 
 # About server-side-rendering SSR
 
