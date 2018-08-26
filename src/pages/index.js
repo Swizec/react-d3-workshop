@@ -6,7 +6,7 @@ import Swizec from "../images/swizec.jpg";
 import PieBarchart from "../images/connected-dataviz.mp4";
 import DashboardViz from "../images/dog-dashboard-scatterplots.mp4";
 import RockOn from "../images/rock-on.gif";
-import { Video, SignoffImg, Signature } from "../elements";
+import { Video, SignoffImg, Signature, BlankUl } from "../elements";
 
 const MDLink = ({ node }) => (
     <div key={node.id}>
@@ -53,8 +53,8 @@ const Welcome = () => (
         <p>
             This is often a 2 day workshop that starts with the basics of React
             and ends with beautiful visualizations. Today we're focusing on the
-            visualization part. I made some tweaks to exercises so we can do the
-            whole workshop in about 4 hours. We'll see how it goes.
+            visualization part. The exercises we work on together build towards
+            a final visualization.
         </p>
         <p>
             These materials are going to stay online forever. I make tweaks when
@@ -111,10 +111,15 @@ const Welcome = () => (
         </p> */}
 
         <p>
-            By the end of the day you'll have built your first React & D3 data
-            visualization. A set of connected charts exploring the relationship
-            between dog breed size, intelligence, and popularity. A dashboard if
-            you will.
+            Exercises build towards this dashboard showing the connection
+            between dog breed size, popularity, and intelligence. It's a set of
+            scatterplots that work together.
+        </p>
+
+        <p>
+            In the 4 hour format final assembly will remain as homework for you,
+            but you'll have built all the necessary components. You can see it
+            live, <a href="https://build-qoyobtahea.now.sh/">here</a>
         </p>
 
         <p>
@@ -126,6 +131,38 @@ const Welcome = () => (
             things work, not to talk about a thousand libraries you'll forget by
             tomorrow.
         </p>
+    </div>
+);
+
+const Goals = () => (
+    <div>
+        <h1>Our goal today</h1>
+        <p>Think of this as our setlist 🤘</p>
+        <p>
+            Our goal today is to get you comfortable with modern React,
+            understand D3, and have the wisdom to choose the right approach to
+            solve your specific challenges.
+        </p>
+        <BlankUl>
+            <li>❓ why dataviz? why react? why d3?</li>
+            <li>📕 when you should or shouldn't use an existing library</li>
+            <li>
+                🆕 overview of React dataviz libraries good for a quick start
+            </li>
+            <li>🎓 learn to understand any D3 example out there</li>
+            <li>🏎 quickly integrate any D3 code in your React project</li>
+            <li>🔧 integrate D3 and React in a scaleable maintainable way</li>
+            <li>⚒ build simple animations with transitions</li>
+            <li>⚒ build complex animations with a game loop</li>
+            <li>💽 connect multiple charts to the same data</li>
+        </BlankUl>
+    </div>
+);
+
+const WhyDataviz1 = () => (
+    <div>
+        <h1>Question for you ❓</h1>
+        <p />
     </div>
 );
 
@@ -220,7 +257,10 @@ const ProjectLink = ({ url, children }) => (
 const CoolThings = () => (
     <div>
         <h1>Here are some cool things I've built with React & D3</h1>
-
+        <p>
+            These demo well, but aren't practical. Little experiments to see how
+            far we can push this stuff :)
+        </p>
         <ul>
             <ProjectLink url="http://swizec.github.io/react-d3-enter-exit-transitions/">
                 Animated typing
@@ -256,6 +296,8 @@ const CoolThings = () => (
 const IndexPage = ({ data }) => (
     <div>
         <Welcome />
+        <WhyDataviz1 />
+        <Goals />
         <CoolThings />
         <WhoSwiz />
 

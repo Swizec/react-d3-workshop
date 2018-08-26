@@ -45,4 +45,8 @@ const Signature = () => (
     </p>
 );
 
-export { Iframe, Hero, Video, Signature, Navigation, SignoffImg };
+const BlankUl = styled.ul`
+    list-style: none;
+`;
+
+export { Iframe, Hero, Video, Signature, Navigation, SignoffImg, BlankUl };
