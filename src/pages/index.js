@@ -7,6 +7,9 @@ import PieBarchart from "../images/connected-dataviz.mp4";
 import DashboardViz from "../images/dog-dashboard-scatterplots.mp4";
 import RockOn from "../images/rock-on.gif";
 import { Video, SignoffImg, Signature, BlankUl } from "../elements";
+import JohnSnow from "../images/john-snow-cholera-map.jpeg";
+import Salaries from "../images/salaries.gif";
+import Datasaurus from "../images/datasaurus.gif";
 
 const MDLink = ({ node }) => (
     <div key={node.id}>
@@ -162,7 +165,37 @@ const Goals = () => (
 const WhyDataviz1 = () => (
     <div>
         <h1>Question for you ❓</h1>
-        <p />
+        <p>
+            <big>
+                What do engineering salaries, an 1854 cholera outbreak, and T.
+                Rex have in common?
+            </big>
+        </p>
+    </div>
+);
+
+const WhyDataviz2 = () => (
+    <div>
+        <h2>
+            What do engineering salaries, an 1854 cholera outbreak, and T. Rex
+            have in common?
+        </h2>
+        <p>You understand them better with datavisualization!</p>
+        <a href="https://swizec.github.io/h1b-software-salaries/">
+            <img src={Salaries} />
+        </a>
+        <p>Salary visualization shows who and where makes the most</p>
+        <a href="https://en.wikipedia.org/wiki/John_Snow#Cholera">
+            <img src={JohnSnow} style={{ height: 500 }} />
+        </a>
+        <p>
+            John Snow's cholera map shows link between disease and drinking
+            water
+        </p>
+        <a href="https://www.fastcompany.com/90124722/these-12-graphics-explain-why-data-viz-is-absolutely-crucial">
+            <img src={Datasaurus} />
+        </a>
+        <p>Datasaurus show summary statistics aren't the whole story.</p>
     </div>
 );
 
@@ -300,6 +333,7 @@ const IndexPage = ({ data }) => (
         <Goals />
         <CoolThings />
         <WhoSwiz />
+        <WhyDataviz2 />
 
         <Start />
 
