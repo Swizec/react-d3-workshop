@@ -286,11 +286,11 @@ We create an axis generator with `axisBottom`, which takes a scale and is going 
 
 Equipped with an axis generator, we select the svg element, append a grouping element, use a transform attribute to move it `10px` to the right and `30px` down, and invoke the generator with `.call()`.
 
-### A quick blackbox example - a React+D3 axis
+## A quick blackbox example - a React+D3 axis
 
 Now let's say we want to use that same axis code but as a React component. The simplest way is to use a blackbox component approach like this:
 
-#### Blackbox version
+### Manual version
 
 <iframe src="https://codesandbox.io/embed/3xy2jr1y5m" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
@@ -308,13 +308,15 @@ For the manual re-rendering part, we call `d3render` in `componentDidUpdate` and
 
 That wasn't so bad, was it?
 
+#### Practical exercise
+
 To make our axis more useful, we could get the scale and axis orientation from props. Perhaps even a label!
 
 Try that as an exercise. Here's my solution 👇
 
-[Peek after solving](https://codesandbox.io/s/5ywlj6jn4l)
+<iframe src="https://codesandbox.io/embed/5ywlj6jn4l?view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-#### HOC version
+### HOC version
 
 After the blackbox axis example above, you'd be right to think something like _"Dude, that looks like it's gonna get hella repetitive. Do I really have to do all that every time?"_
 
@@ -369,7 +371,9 @@ Let's say [the barchart example from earlier](https://cdn.rawgit.com/mbostock/38
 
 Fork the d3-axis-hoc CodeSandbox and have some fun :)
 
-Here's [my solution](https://codesandbox.io/s/q86vx8y246)
+Due to D3 version changes you'll have to tweak how that bar chart loads data. D3v5 moved to using promises by default, so you have to replace `d3.csv(url, callback)` with `d3.csv(url).then`.
+
+Here's my solution 👉 [click](https://codesandbox.io/s/q86vx8y246)
 
 ## Full-feature integration
 
@@ -488,7 +492,7 @@ Steps 👇
 - make datapoint component look nice
 - add a mouseover effect
 
-![Here's my solution](https://codesandbox.io/s/j73xlyr8v5)
+[Here's my solution](https://codesandbox.io/s/j73xlyr8v5)
 
 # About server-side-rendering SSR
 

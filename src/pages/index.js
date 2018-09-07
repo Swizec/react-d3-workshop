@@ -316,6 +316,12 @@ const CoolThings = () => (
             <ProjectLink url="https://swizec.github.io/migrations-map/">
                 A zoomable pannable map of global migrations
             </ProjectLink>
+            <ProjectLink url="https://build-qoyobtahea.now.sh/">
+                An example of using flexbox in SVG
+            </ProjectLink>
+            <ProjectLink url="https://dist-exhowcijhf.now.sh/">
+                Using React Suspense and Time Slicing in dataviz
+            </ProjectLink>
             <ProjectLink url={PieBarchart}>
                 A connected piechart barchart viz of travel expenses
             </ProjectLink>

@@ -31,7 +31,7 @@ const Fin = ({ data: { allMarkdownRemark: { edges } } }) => {
             <p>
                 <big>
                     Please fill out{" "}
-                    <a href="https://swizecteller.typeform.com/to/QhZf2K">
+                    <a href="https://swizecteller.typeform.com/to/BGXEbd">
                         this feedback form
                     </a>. It helps me improve. <br />I'll send you something
                     nice in return. :)
