@@ -25,17 +25,8 @@ const ListContentPages = ({ data }) => {
 
     return (
         <div>
-            <h1>Setlist - Day 1</h1>
-
-            {_.sortBy(pages, ({ node }) => node.fields.slug)
-                .slice(0, 4)
-                .map(MDLink)}
-
-            <h1>Setlist - Day 2</h1>
-
-            {_.sortBy(pages, ({ node }) => node.fields.slug)
-                .slice(4, pages.length)
-                .map(MDLink)}
+            <h1>Setlist</h1>
+            {_.sortBy(pages, ({ node }) => node.fields.slug).map(MDLink)}
 
             <h2>
                 <Link to="/fin">🎊 Fin</Link>

@@ -1,18 +1,23 @@
 module.exports = {
     siteMetadata: {
-        title: "React and D3v4 workshop by Swizec"
+        title: "React for DataViz (with D3) by Swizec"
     },
     plugins: [
         "gatsby-plugin-react-next",
         "gatsby-plugin-react-helmet",
         {
             resolve: "gatsby-plugin-typography",
-            options: { pathToConfigModule: "src/utils/typography.js" }
+            options: {
+                pathToConfigModule: "src/utils/typography.js"
+            }
         },
         "gatsby-plugin-styled-components",
         {
             resolve: "gatsby-source-filesystem",
-            options: { name: "src", path: `${__dirname}/src/` }
+            options: {
+                name: "src",
+                path: `${__dirname}/src/`
+            }
         },
         {
             resolve: `gatsby-transformer-remark`,
