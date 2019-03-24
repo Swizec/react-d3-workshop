@@ -42,17 +42,26 @@ const Welcome = () => (
         </a>
         <h1>Hello friend 👋</h1>
 
-        <p>Welcome to Swizec's Data visualization with React & D3 workshop.</p>
+        <p>
+            Welcome to Swizec's React for Data Visualization (with D3) workshop.
+        </p>
 
         <p>
-            This is often a 2 day workshop that starts with the basics of React
-            and ends with beautiful visualizations. Today we're focusing on the
-            visualization part. The exercises we work on together build towards
-            a final visualization.
+            Today you're in for a treat. You're going to build a data
+            visualization and learn about the correlation between dog size,
+            intelligence, and weight. Very important data science!.
         </p>
         <p>
-            These materials are going to stay online forever. I make tweaks when
-            I do new workshops so check back any time.
+            While you do that, you'll learn enough D3 to understand any example
+            out there, a few tricks to quickly meet your deadlines, a scalable
+            approach to dataviz components your whole team can understand, and a
+            bunch of animation stuff. Because animation is cool and gets you
+            likes on Twitter.
+        </p>
+        <p>
+            You can access this page forever. It's yours to keep and use as a
+            reference when you work. I make tweaks every time I give a new
+            workshop.
         </p>
         <p>
             To get the most out of today's workshop, you should be familiar with
@@ -70,50 +79,11 @@ const Welcome = () => (
             <strong>But fear not!</strong>
         </p>
         <p>I am here to guide you. We'll go through everything together.</p>
-        {/* <p>
-            Today we're going to build your first webapp with React and Friends.
-            We're going to use React to build components, React Router for
-            routing, styled components for styling, and Redux for state
-            management.
-        </p>
+        <p>Your day is structured as a codealong.</p>
         <p>
-            {`<Tomorrow>`} we're going to learn the basics of D3v4, look at
-            several strategies for integration with React, then build a gorgeous
-            visualization or two.
-        </p>
-        <p>
-            Your 1st day starts at the very beginning:{" "}
-            <em>
-                Why React? What problem does it solve? What makes it tick?
-                What's the ecosystem like? Why are components the future?
-            </em>
-        </p>
-        <p>
-            But fear not, we won't get stuck on the basics. By the end of your
-            first, you'll have built a full webapp and understand how it works.
-        </p>
-        <p>An infinite series of fun gifs like this 👇</p>
-        <p>
-            <Video src={MortyMindblowers} autoPlay loop />
-        </p>
-        <p>
-            Your 2nd day starts with the idea that you magically remember
-            everything and are now a pro. Don't worry if you're not, Swizec is
-            here to help and he's going to code everything with you. If you get
-            lost, sit back and observe. Checkout the example repo at key points
-            so you can catch up.
-        </p> */}
-
-        <p>
-            Exercises build towards this dashboard showing the connection
-            between dog breed size, popularity, and intelligence. It's a set of
-            scatterplots that work together.
-        </p>
-
-        <p>
-            In the 4 hour format final assembly will remain as homework for you,
-            but you'll have built all the necessary components. You can see it
-            live, <a href="https://build-qoyobtahea.now.sh/">here</a>
+            You'll hear some theory, then we'll walk through some code, you'll
+            do an exercise, then we solve it together. Everything builds towards
+            the final dashboard 👉 a set of scatterplots that work together.
         </p>
 
         <p>
@@ -146,8 +116,10 @@ const Goals = () => (
             <li>🎓 learn to understand any D3 example out there</li>
             <li>🏎 quickly integrate any D3 code in your React project</li>
             <li>🔧 integrate D3 and React in a scaleable maintainable way</li>
+            <li>🎣 refactoring to React Hooks</li>
             <li>⚒ build simple animations with transitions</li>
             <li>⚒ build complex animations with a game loop</li>
+            <li>🎨 hybrid animations combining transitions and game loops</li>
             <li>💽 connect multiple charts to the same data</li>
         </BlankUl>
     </div>
@@ -315,6 +287,9 @@ const CoolThings = () => (
             </ProjectLink>
             <ProjectLink url={PieBarchart}>
                 A connected piechart barchart viz of travel expenses
+            </ProjectLink>
+            <ProjectLink url="https://create-react-app-swizec.swizec-react-dataviz.now.sh/results?values=W1tbIiIsMiwxLDFdLFsiIiwxLDEsMF0sWyIiLDIsMCwwXSxbIiIsMSwyLDJdLFsiIiwxLDEsMF1dLFtbIiIsMiwyLDBdLFsiIiwxLDEsMl0sWyIiLDEsMiwxXSxbIiIsMiwxLDBdLFsiIiwxLDIsMV1dLFtbIiIsMSwxLDJdLFsiIiwyLDEsMV0sWyIiLDIsMSwxXSxbIiIsMiwyLDJdLFsiIiwxLDEsMV0sWyIiLDIsMCwwXV0sW1siIiwxLDIsMV0sWyIiLDIsMSwxXSxbIiIsMiwxLDJdLFsiIiwyLDIsMF0sWyIiLDEsMiwxXV0sW1siIiwyLDEsMl0sWyIiLDIsMSwxXSxbIiIsMSwxLDFdLFsiIiwxLDAsMV0sWyIiLDIsMSwwXV0sW1siIiwxLDEsMV0sW3RydWUsMiwxLDFdLFt0cnVlLDIsMiwyXSxbIiIsMiwxLDBdLFt0cnVlLDIsMiwxXSxbIiIsMSwyLDFdXSxbWzEsMiwxLDBdLFsxLDIsMSwxXSxbMSwxLDEsMV0sWzEsMiwxLDBdLFsxLDEsMiwyXV0sW1sxLDFdLFsyLDJdLFsxLDFdLFsyXSxbMV0sWyIiXSxbbnVsbF1dXQ==&yourOrg=WzEsMSwxLDMsMV0=">
+                Live donut bar chart thing
             </ProjectLink>
             <ProjectLink url="/">This page :)</ProjectLink>
         </ul>

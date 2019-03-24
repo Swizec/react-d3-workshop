@@ -19,30 +19,35 @@ Take this animated alphabet for example. New letters animate in, old letters shu
 [Try it live](http://swizec.github.io/react-d3-enter-exit-transitions/)
 
 ```jsx
-class Alphabet extends Component {
+class Alphabet extends React.Component {
     static letters = "abcdefghijklmnopqrstuvwxyz".split("");
-
     state = { alphabet: [] };
 
     componentDidMount() {
-        d3.interval(() => {
-            const shuffledLetters = d3
-                .shuffle(Alphabet.letters)
-                .slice(0, Math.floor(Math.random() * 18))
-                .sort();
-            this.setState({ alphabet: shuffledLetters });
-        }, 1500);
+        d3.interval(this.shuffleAlphabet, 1500);
     }
 
+    shuffleAlphabet = () => {
+        const alphabet = d3
+            .shuffle(Alphabet.letters)
+            .slice(0, Math.floor(Math.random() * Alphabet.letters.length))
+            .sort();
+
+        this.setState({
+            alphabet
+        });
+    };
+
     render() {
-        const { alphabet } = this.state;
-        const letters = alphabet.map((d, i) => <Letter d={d} i={i} key={i} />);
+        let transform = `translate(${this.props.x}, ${this.props.y})`;
 
         return (
-            <g transform="translate(0, 200)">
-                <ReactTransitionGroup component="g">
-                    {letters}
-                </ReactTransitionGroup>
+            <g transform={transform}>
+                <TransitionGroup enter={true} exit={true} component="g">
+                    {this.state.alphabet.map((d, i) => (
+                        <Letter letter={d} index={i} key={d} />
+                    ))}
+                </TransitionGroup>
             </g>
         );
     }
