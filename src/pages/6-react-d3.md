@@ -2,7 +2,7 @@
 title: Integrating D3 with React
 ---
 
-D3 is great out of the box. There's nothing inherently wrong with it at all. It's flexible and gets the job done. You don't *need* React nor any other library to create data visualizations.
+D3 is great out of the box. There's nothing inherently wrong with it at all. It's flexible and gets the job done. You don't _need_ React nor any other library to create data visualizations.
 
 So why use React? There's a few ways React makes your data visualization code even better.
 
@@ -194,7 +194,7 @@ But leads to lower code quality and worse UI performance.
 
 > Finally, the **cost** side of the decision is related to the budget and training of the team. What kinds of skills does your team have? If you have D3.js developers, they would prefer a clear separation between D3.js and React, so probably an approach using the lifecycle method wrapping would work great. However, if your team is mostly React developers, they would enjoy extending any of the current React-D3.js libraries.
 
-Fundamentally, the more custom your visualization needs, the more necessary it becomes to roll your own code.
+Fundamentally, the more custom your visualization needs to be, the more necessary it becomes to roll your own code.
 
 # How to build your own
 
@@ -380,20 +380,80 @@ Due to D3 version changes you'll have to tweak how that bar chart loads data. D3
 
 Here's my solution 👉 [click](https://codesandbox.io/s/q86vx8y246)
 
+### Open source D3blackbox library
+
+You can avoid building your own by using my opensourced solution. It's called `D3blackbox` and works the same as what you just learned.
+
+[![](../images/d3blackbox.png)](https://d3blackbox.com)
+
+[👉 d3blackbox.com](https://d3blackbox.com/)
+
+You use it like this 👇
+
+<iframe src="https://codesandbox.io/embed/km3l21y60r?fontsize=14" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+### The useD3 hook
+
+React 16.8 introduced a new way of thinking about state and side-effects in React. Using hooks we can do everything with functional components. No more lifecycle methods, just effects and side-effects.
+
+It's pretty neat. We'll talk more about it later.
+
+Right now I want to show you what a hook version of d3blackbox looks like. Comes bundled with my open source library :)
+
+```javascript
+import { useD3 } from "d3blackbox";
+function renderSomeD3(anchor) {
+    d3.select(anchor);
+    // ...
+}
+const MyD3Component = ({ x, y }) => {
+    const refAnchor = useD3(anchor => renderSomeD3(anchor));
+    return <g ref={refAnchor} transform={`translate(${x}, ${y})`} />;
+};
+```
+
+Same mental model applies as before. You have a D3 render function that handles all the rendering. Takes over the DOM and does its thing.
+
+The difference is that instead of wrapping our whole component in `D3blackbox` and rendering an anchor element with a HOC, we are now rendering the anchor itself and giving it a `ref` that `useD3` creates for us.
+
+This is the hook:
+
+```javascript
+export const useD3 = function(render) {
+    const refAnchor = React.useRef(null);
+
+    React.useEffect(() => {
+        render(refAnchor.current);
+    });
+
+    return refAnchor;
+};
+```
+
+🤘
+
+Using it is even easier than the HOC version. I ❤️ hooks.
+
+<iframe src="https://codesandbox.io/embed/401723n494?fontsize=14" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+### Practical exercise
+
+Try the `useD3` hook with your earlier CodeSandbox integrating a barchart.
+
 ## Full-feature integration
 
 As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. The blackbox approach especially starts struggling when it comes to scale. The more charts and graphs and visualizations on your screen, the slower it becomes.
 
-Someone once came to my workshop and said *"We used the blackbox approach and it takes several seconds to re-render our dashboard on any change. I'm here to learn how to do it better."*
+Someone once came to my workshop and said _"We used the blackbox approach and it takes several seconds to re-render our dashboard on any change. I'm here to learn how to do it better."_
 
 In our full-feature integration, React does the rendering and D3 calculates the props.
 
-Our goal  is to build controlled components that dutifully listen to their props and reconcile that with D3's approach that uses a lot of internal state.
+Our goal is to build controlled components that dutifully listen to their props and reconcile that with D3's approach that uses a lot of internal state.
 
 There are two situations we can find ourselves in:
 
-1. We know for a fact our component's props never change
-2. We think props could change
+1.  We know for a fact our component's props never change
+2.  We think props could change
 
 It's easiest to show you with an example.
 
@@ -405,14 +465,14 @@ Something like this 👇
 
 ### Props don't change
 
-The first case makes our life easier, but our component less flexible and reusable. It's great when you know in advance that there are features you're not going to support. 
+The first case makes our life easier, but our component less flexible and reusable. It's great when you know in advance that there are features you're not going to support.
 
 Like, filtering your data or changing component size 👉 means your D3 scales don't have to change.
 
 When our props don't change, we follow a 2-step integration process:
 
-* set up D3 objects as class properties
-* output SVG in `render()`
+*   set up D3 objects as class properties
+*   output SVG in `render()`
 
 We don't have to worry about updating D3 objects on prop changes. Work done 👌
 
@@ -422,17 +482,17 @@ Build scatterplot together assuming no updates, use a live codesandbox.
 
 Steps to follow 👇
 
-- stub out the basic setup
-- generate random data
-- set up D3 scales
-- render circles for each entry
-- add axes
+*   stub out the basic setup
+*   generate random data
+*   set up D3 scales
+*   render circles for each entry
+*   add axes
 
 [Here's my solution](https://codesandbox.io/s/1zlp4jv494)
 
 ### Props might update
 
-When our props might update, the story is a little different. Since we're using D3 objects to calculate our SVG properties, we have to make sure those objects are updated *before* we render.
+When our props might update, the story is a little different. Since we're using D3 objects to calculate our SVG properties, we have to make sure those objects are updated _before_ we render.
 
 If you do it in `componentDidUpdate`, you will render a stale visualization.
 
@@ -442,7 +502,7 @@ We follow a 3-step pattern:
 *   update D3 objects in `getDerivedStateFromProps`
 *   output SVG in `render()`
 
-`getDerivedStateFromProps` is the new lifecycle hook that replaces `componentWillX` that we used to have. Officially discouraged, it is the best tool we have to make sure D3 state is updated *before* we render.
+`getDerivedStateFromProps` is the new lifecycle hook that replaces `componentWillX` that we used to have. Officially discouraged, it is the best tool we have to make sure D3 state is updated _before_ we render.
 
 Because `getDerivedStateFromProps` is called on every component render, not just when our props actually change, it's a good idea to use it only with `React.PureComponent` and to make sure we aren't recalculating stuff too often.
 
@@ -454,11 +514,11 @@ Update our scatterplot so it can deal with resizing and updating data.
 
 Steps 👇
 
-- add an interaction that resizes the scatterplot
-- move scales to state
-- update scales in `getDerivedStateFromProps`
-- use `PureComponent`
-- add data changes
+*   add an interaction that resizes the scatterplot
+*   move scales to state
+*   update scales in `getDerivedStateFromProps`
+*   use `PureComponent`
+*   add data changes
 
 [Here's my solution](https://codesandbox.io/s/ll9kp8or0l)
 
@@ -492,10 +552,10 @@ Let's use the render prop approach to make our scatterplot more reusable.
 
 Steps 👇
 
-- accept a render prop
-- use it to render datapoints
-- make datapoint component look nice
-- add a mouseover effect
+*   accept a render prop
+*   use it to render datapoints
+*   make datapoint component look nice
+*   add a mouseover effect
 
 [Here's my solution](https://codesandbox.io/s/j73xlyr8v5)
 
@@ -598,7 +658,8 @@ You can't detect that your component already had children and avoid replacing th
 d3
     .csv(
         "https://raw.githubusercontent.com/Swizec/server-side-d3-poc/master/src/data.csv",
-		    this.rowParse)
+        this.rowParse
+    )
     .then(data =>
         ReactDOM.hydrate(<App data={data} />, document.getElementById("root"))
     );

@@ -198,16 +198,26 @@ const WhoSwiz = () => (
                 </a>, dare ask me about publishers
             </li>
             <li>
-                published 3 editions of{" "}
+                self-published 3 editions of{" "}
                 <a href="https://www.swizec.com/reactd3js/">React + D3</a>,
                 that's been great
             </li>
-            <li>helped over 10,000 people become better engineers</li>
+            <li>
+                created the{" "}
+                <a href="https://reactfordataviz.com">
+                    React for Data Visualization
+                </a>{" "}
+                video course
+            </li>
             <li>
                 made this{" "}
                 <a href="https://es2017.io">
                     interactive ES6+ cheatsheet &mdash; es2017.io
                 </a>
+            </li>
+            <li>
+                taught in-person workshops to engineers from companies big and
+                small
             </li>
         </ul>
     </div>
