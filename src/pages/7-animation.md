@@ -14,7 +14,7 @@ Our general approach to animation goes like this: Render from state. Change stat
 
 We're going to use two different ways of changing state so often. The first follows a game loop principle, which gives you more control, but is more tedious. The second is using D3 transitions, which is quicker to build, but gives you less control.
 
-We're going to start with an example or two in CodeSandbox, then build something more involved. 
+We're going to start with an example or two in CodeSandbox, then build something more involved.
 
 # Using a game loop for rich animation
 
@@ -54,8 +54,8 @@ I won't go into details about why easing functions are important, but they make 
 
 The two we can achieve with easing functions are:
 
-- Squash and Stretch
-- Slow In Slow Out
+*   Squash and Stretch
+*   Slow In Slow Out
 
 <iframe src="http://easings.net/" width="110%" height="400" style="border: 0px"></iframe>
 
@@ -69,18 +69,18 @@ Let me show you how it works on a small example. We're creating a component that
 
 Just like with earlier examples, our goal is to build a component that's fully controlled by its props. We're still using React for rendering and D3 for calculating things, but we have to mix approaches.
 
-- React controls the DOM
-- D3 takes over during transition
-- React regains control
+*   React controls the DOM
+*   D3 takes over during transition
+*   React regains control
 
 We're using `state` as a staging area for our prop changes. That allows us to apply changes over time.
 
 A 4-step approach develops:
 
-1. Copy relevant props into state
-2. Render from state
-3. Use D3 transitions in `componentDidUpdate`
-4. Update state when transition ends
+1.  Copy relevant props into state
+2.  Render from state
+3.  Use D3 transitions in `componentDidUpdate`
+4.  Update state when transition ends
 
 It's important to tell React what's going on after we're done updating the DOM. Otherwise it gets confused and might start throwing errors about DOM nodes not matching their React state.
 
@@ -104,7 +104,7 @@ The approach is similar, even easier in some cases. You don't have to worry abou
 
 Good question!
 
-Think of it as a spectrum of control and performance. 
+Think of it as a spectrum of control and performance.
 
 Game loop gives you most control and least performance. You're running React's full rendering engine on every update.
 
@@ -128,7 +128,6 @@ i(0.5); // 15
 i(1.0); // 20
 ```
 
-
 D3 can interpolate everything from numbers, to colors, and even objects or strings. It does so by finding interpolatable parts of your argument and manipulating them linearly depending on the `t` parameter.
 
 But sometimes you need custom interpolators – tweens.
@@ -149,7 +148,6 @@ When you try to transition a shape like that, funny things can happen. Sometimes
 
 Notice the arc wobble.
 
-
 ## Tweens to the rescue
 
 Luckily, D3 lets us define custom transitions called tweens. To smoothly animate a piechart we're going to build an `arcTween`. Because piecharts are made of arcs.
@@ -162,9 +160,9 @@ Tweening functions are what makes transitions work, by the way. They take an arg
 
 Our tween generator is going to need:
 
-1. `oldData`, the definition of our pie slice at the start of our transition
-2. `newData`, the definition of our pie slice that we want to tween towards
-3. `arc`, a [D3 arc generator](https://github.com/d3/d3-shape/blob/master/README.md#arcs)
+1.  `oldData`, the definition of our pie slice at the start of our transition
+2.  `newData`, the definition of our pie slice that we want to tween towards
+3.  `arc`, a [D3 arc generator](https://github.com/d3/d3-shape/blob/master/README.md#arcs)
 
 Both `oldData` and `newData` come from a [D3 pie generator](https://github.com/d3/d3-shape/blob/master/README.md#pies). Their `startAngle` and `endAngle` is what we're interested in.
 
@@ -204,16 +202,22 @@ You use it like this 👇
 ```javascript
 // Arc.js
 d3
-	.select(this.refs.elem)
-	.transition()
-	.duration(80)
-	.attrTween("d", arcTween(this.state.d, newProps.d, this.arc))
-	.on("end", () =>
-	    this.setState({
-	        d: newProps.d,
-	        pathD: this.arc(newProps.d)
-	    })
-	);
+    .select(this.refs.elem)
+    .transition()
+    .duration(80)
+    .attrTween("d", arcTween(this.state.d, newProps.d, this.arc))
+    .on("end", () =>
+        this.setState({
+            d: newProps.d,
+            pathD: this.arc(newProps.d)
+        })
+    );
 ```
 
 Select an element, a `<path>`, start a transition, make it last `80` milliseconds, `attrTween` the path definition, `d`, attribute using the tween returned from `arcTween`.
+
+## Hybrid animations with game loop transitions
+
+This seguays nicely into a new technique I discovered recently: Hybrid animations.
+
+![](../images/donut-bar.gif)
