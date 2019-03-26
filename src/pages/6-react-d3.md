@@ -666,3 +666,18 @@ d3
 ```
 
 And you have solved the Flash of Doom seen in most D3 charts. 🤘
+
+# Using React Hooks
+
+Like we mentioned earlier, React Hooks are a new way of writing React components introduced in React 16.8. They give the same capabilities we used to have in class-based components to functional componenets as well.
+
+You can have state, side-effects, memoization, etc. You can even compose them, buidl your own, and share logic between components. It's pretty great.
+
+The two hooks you'll use most are:
+
+*   `useState` for local state
+*   `useEffect` for running code on updates
+
+The hook most useful for D3 integration is `useMemo`. Let's rewrite my Scatterplot example with hooks and I'll explain how it all works.
+
+👉 [codesandbox](https://codesandbox.io/s/j73xlyr8v5)
