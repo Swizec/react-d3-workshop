@@ -22,14 +22,14 @@ module.exports = {
         {
             resolve: `gatsby-transformer-remark`,
             options: {
-                plugins: [
-                    {
+                plugins: [{
                         resolve: `gatsby-remark-prismjs`,
                         options: {
                             classPrefix: `language-`
                         }
                     },
                     `gatsby-remark-copy-linked-files`,
+                    `gatsby-remark-relative-images`,
                     {
                         resolve: `gatsby-remark-images`,
                         options: {

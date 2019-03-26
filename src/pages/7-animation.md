@@ -221,3 +221,21 @@ Select an element, a `<path>`, start a transition, make it last `80` millisecond
 This seguays nicely into a new technique I discovered recently: Hybrid animations.
 
 ![](../images/donut-bar.gif)
+
+Hybrid animations combine what you've already learned about animating with React and D3 into a single approach. Use D3 transitions to drive the animation and React's rendering via state updates to render each frame.
+
+Let's give it a shot :)
+
+Here's a CodeSandbox with almost everything in place to transition a donut chart to a bar chart. Silly example but also the one way I've actually used this technique IRL.
+
+<iframe src="https://codesandbox.io/embed/ojwyojrzx9?fontsize=14" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+We render a pie chart filled with random data. It keeps some local state (radius and roundness). Each arc is a new React component.
+
+Your job is to create a transition in `startTransition` that changes the radius from `100` to `11000` over some time duration. That's a big enough radius that the donut chart ends up looking flat.
+
+Use the `round` flag to decide whether you're transition to the small or big radius. Keep in mind that you can start a D3 transition on any selection even if it isn't selecting anything.
+
+Here's my solution 👉 [click](https://codesandbox.io/s/llpk084r69)
+
+Try adding an easing function :)
