@@ -33,6 +33,10 @@ const Header = () => (
                     <small>workshop by Swizec</small>
                 </Link>
             </h2>
+            <p style={{ color: "white", marginBottom: 0 }}>
+                {" "}
+                reactd3workshop.com{" "}
+            </p>
         </div>
     </div>
 );
