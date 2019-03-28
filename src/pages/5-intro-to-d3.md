@@ -26,7 +26,7 @@ There are a few gotchas that trip you up and make examples look like magic. You'
 
 Most examples are just one-off toys after all. It's art.
 
-A lot of dataviz that *isn't* art, is charts and graphs. You'll often find that using D3 to build those, is too complicated. D3 gives you more power than you need.
+A lot of dataviz that _isn't_ art, is charts and graphs. You'll often find that using D3 to build those, is too complicated. D3 gives you more power than you need.
 
 If you want charts, I suggest using a charting library. Vx.js is a great choice.
 
@@ -35,39 +35,62 @@ Where many charting libraries fall short is customization. The API is limited, y
 Take this barchart code, for example
 
 ```javascript
-d3.tsv("data.tsv", function(d) {
-  d.frequency = +d.frequency;
-  return d;
-}, function(error, data) {
-  if (error) throw error;
+d3.tsv(
+    "data.tsv",
+    function(d) {
+        d.frequency = +d.frequency;
+        return d;
+    },
+    function(error, data) {
+        if (error) throw error;
 
-  x.domain(data.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+        x.domain(
+            data.map(function(d) {
+                return d.letter;
+            })
+        );
+        y.domain([
+            0,
+            d3.max(data, function(d) {
+                return d.frequency;
+            })
+        ]);
 
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+        g
+            .append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
+        g
+            .append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.axisLeft(y).ticks(10, "%"))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("text-anchor", "end")
+            .text("Frequency");
 
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
-      .attr("y", function(d) { return y(d.frequency); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.frequency); });
-});
+        g
+            .selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) {
+                return x(d.letter);
+            })
+            .attr("y", function(d) {
+                return y(d.frequency);
+            })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) {
+                return height - y(d.frequency);
+            });
+    }
+);
 ```
 
 Can you tell what's going on? I'd need to read it pretty carefully.
@@ -76,7 +99,7 @@ Can you tell what's going on? I'd need to read it pretty carefully.
 
 Somebody once asked me how to learn D3.js from scratch. I quipped that it took me writing a book to really learn it. It's one hell of a library.
 
-Most people don't go that far. They don't have to. 
+Most people don't go that far. They don't have to.
 
 You start with a problem, find similar examples, do some copy pasta, tweak until it works and end up with a working visualization you don't understand. You'd be surprised how few people actually understand how their D3 dataviz works.
 
@@ -84,10 +107,10 @@ But there are only 3 key concepts you have to grok, to understand every D3 examp
 
 ## 1) Data manipulation vs. DOM manipulation
 
-All D3 examples are split into two parts: 
+All D3 examples are split into two parts:
 
-1. Data manipulation
-2. DOM manipulation 
+1.  Data manipulation
+2.  DOM manipulation
 
 First you prep your values, then you render.
 
@@ -105,12 +128,12 @@ There are two parts to this code: Data manipulation and DOM manipulation.
 
 ![Data manipulation code](../images/barchartcode-data.png)
 
-Bostock here first prepares his data: 
+Bostock here first prepares his data:
 
-- some sizing variables (margin, width, height)
-- two scales to help with data-to-coordinates conversion (x, y)
-- loads his dataset (d3.tsv) and updates his scales' domains
-- uses scales to calculate attributes during DOM manipulation
+*   some sizing variables (margin, width, height)
+*   two scales to help with data-to-coordinates conversion (x, y)
+*   loads his dataset (d3.tsv) and updates his scales' domains
+*   uses scales to calculate attributes during DOM manipulation
 
 In the DOM manipulation part, he puts shapes and objects into an SVG. This is the part that shows up in your browser.
 
@@ -120,12 +143,12 @@ DOM manipulation in D3 happens via D3 selections. They're a lot like jQuery `$(s
 
 Here Bostock does a few things
 
-- selects the `<svg>` node (d3.select)
-- appends a grouping `<g>` node (.append) with an SVG positioning attribute (translate)
-- adds a bottom axis by appending a `<g>`, moving it, then calling `d3.axisBottom` on it. D3 has built-in axis generators
-- adds a left axis using the same approach but rotating the ticks
-- appends a text label "Frequency" to the left axis
-- uses `selectAll.data` to make a virtual selection of `.bar` nodes and attach some data, then for every new data value (.enter), appends a `<rect>` node and gives it attributes
+*   selects the `<svg>` node (d3.select)
+*   appends a grouping `<g>` node (.append) with an SVG positioning attribute (translate)
+*   adds a bottom axis by appending a `<g>`, moving it, then calling `d3.axisBottom` on it. D3 has built-in axis generators
+*   adds a left axis using the same approach but rotating the ticks
+*   appends a text label "Frequency" to the left axis
+*   uses `selectAll.data` to make a virtual selection of `.bar` nodes and attach some data, then for every new data value (.enter), appends a `<rect>` node and gives it attributes
 
 That last part is where people get lost. It looks like magic. I've been using D3 for years and it still looks like magic.
 
@@ -147,13 +170,13 @@ Colored shapes in the domain map to colors in the range. No formula for this one
 
 ```javascript
 let shapes = d3.scaleOrdinal()
-	.domain(['red', 'orange', ...)
+	.domain(["triangle", "rectangle", ...])
 	.range(['red', 'orange', ...)
 ```
 
 [Play with scales on CodeSandbox](codesandbox://intro-to-d3/scales)
 
-Once you have this scale, you can use it to translate from shapes to colors. `shapes('red triangle')` returns `'red'` for example.
+Once you have this scale, you can use it to translate from shapes to colors. `shapes('triangle')` returns `'red'` for example.
 
 Many different types of scales exist. Linear, logarithmic, quantize, etc. Any basic transformation you can think of exists. The rest you can create by writing custom scales.
 
@@ -178,8 +201,14 @@ Here's a key insight about the magic of layouts: They're the data part.
 You take a `forceLayout` and feed it your data. It returns an object with a `tick` event callback.
 
 ```javascript
-var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+var simulation = d3
+    .forceSimulation()
+    .force(
+        "link",
+        d3.forceLink().id(function(d) {
+            return d.id;
+        })
+    )
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 ```
@@ -192,13 +221,13 @@ For a force layout, you have to update the DOM on every tick of the animation. F
 
 Once I grokked this, all the fancy visualizations out there started making sense. It also means we can use these fancy layouts in React 🙌
 
-# Summary 
+# Summary
 
 You need to grok 3 key insights for D3 to make sense. Once they click, a whole new world opens up.
 
-1. Code is split into data and DOM manipulation
-2. Scales are great and used a lot
-3. You're always in control of rendering
+1.  Code is split into data and DOM manipulation
+2.  Scales are great and used a lot
+3.  You're always in control of rendering
 
 # A few more cool things D3 can do
 
@@ -214,9 +243,9 @@ You need to grok 3 key insights for D3 to make sense. Once they click, a whole n
 
 ## Shapes
 
-- Build the most common thing you need.
-- Calculate coordinates.
-- You do the rendering.
+*   Build the most common thing you need.
+*   Calculate coordinates.
+*   You do the rendering.
 
 ![Some common basic shapes D3 can generate](../images/shapes-1.png)
 
