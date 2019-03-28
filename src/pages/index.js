@@ -326,6 +326,20 @@ const IndexPage = ({ data }) => (
         <a href="https://www.youtube.com/watch?v=QxIWDmmqZzY">
             <SignoffImg src={RockOn} title="Rock On 🤘" />
         </a>
+
+        <p>
+            <big>
+                <strong>Before you leave</strong> please take a minute to answer{" "}
+                <a href="https://swizecteller.typeform.com/to/Jd8xjQ">
+                    this feedback form
+                </a>. It helps me improve.
+            </big>
+        </p>
+        <p>
+            <big>
+                I'll give you free access to ReactForDataViz.com in return. :)
+            </big>
+        </p>
         <Signature />
     </div>
 );

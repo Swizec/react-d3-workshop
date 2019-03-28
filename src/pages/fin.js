@@ -31,10 +31,10 @@ const Fin = ({ data: { allMarkdownRemark: { edges } } }) => {
             <p>
                 <big>
                     Please fill out{" "}
-                    <a href="https://swizecteller.typeform.com/to/BGXEbd">
+                    <a href="https://swizecteller.typeform.com/to/Jd8xjQ">
                         this feedback form
-                    </a>. It helps me improve. <br />I'll send you something
-                    nice in return. :)
+                    </a>. It helps me improve. <br />I'll give you free access
+                    to ReactForDataViz.com in return. :)
                 </big>
             </p>
             <p>Enjoy this relaxing video of Kiwi eating a chip</p>
