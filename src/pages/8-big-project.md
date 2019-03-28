@@ -28,7 +28,7 @@ I've prepared a starter repo that comes with
 *   stubbed out components and files
 *   all necessary dependencies
 
-[dogs dashboard starter repo](https://github.com/Swizec/workshop-starter-mar-2019)
+[dogs dashboard starter repo](https://github.com/Swizec/react-dataviz-workshop-starter-mar-2019)
 
 [final solution](https://github.com/Swizec/dog-size-intelligence-popularity)
 
